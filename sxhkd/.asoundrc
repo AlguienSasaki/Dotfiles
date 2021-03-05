@@ -1,0 +1,9 @@
+pcm.! default {
+        tipo hw
+        tarjeta 0
+}
+
+ctl.! default {
+        tipo hw           
+        tarjeta 0
+}
