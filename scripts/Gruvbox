@@ -1,0 +1,19 @@
+#!/bin/bash
+
+DIR=/home/alguien/.config
+TEN=temas/Gruvbox
+
+cat $DIR/alacritty/$TEN > $DIR/alacritty/alacritty.yml &
+cat $DIR/bspwm/$TEN > $DIR/bspwm/bspwmrc & 
+cat $DIR/sxhkd/$TEN > $DIR/sxhkd/sxhkdrc &
+cat $DIR/dunst/$TEN > $DIR/dunst/dunstrc &
+cat $DIR/gtk-3.0/$TEN > $DIR/gtk-3.0/settings.ini &
+killall dunst &
+cat $DIR/rofi/$TEN > $DIR/rofi/config.rasi &
+spicetify config current_theme Gruvbox-Gold &
+spicetify apply &
+bash ~/.config/polybar/blocks/scripts/styles.sh --gruvbox &
+cat $DIR/polybar/blocks/launch.sh > $DIR/polybar/launch.sh &
+bspc wm -r;dunstify -i $HOME/.config/dunst/iconpng/arch.png "Tema Gruvbox correctamente aplicado" &
+pkill -USR1 -x sxhkd
+

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+DIR=/home/alguien/.config
+TEN=temas/Dark
+
+cat $DIR/alacritty/$TEN > $DIR/alacritty/alacritty.yml &
+cat $DIR/bspwm/$TEN > $DIR/bspwm/bspwmrc & 
+cat $DIR/sxhkd/$TEN > $DIR/sxhkd/sxhkdrc &
+cat $DIR/gtk-3.0/$TEN > $DIR/gtk-3.0/settings.ini &
+cat $DIR/dunst/$TEN > $DIR/dunst/dunstrc &
+killall dunst &
+cat $DIR/rofi/$TEN > $DIR/rofi/config.rasi &
+spicetify config current_theme Dark &
+spicetify apply &
+cat $DIR/polybar/alg/launch.sh > $DIR/polybar/launch.sh &
+bspc wm -r;dunstify -i $HOME/.config/dunst/iconpng/arch.png "Tema Dark Correctamente aplicado" &
+pkill -USR1 -x sxhkd
+
