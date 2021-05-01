@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Spotlight
+Comment=a
+Exec=ulauncher
+Icon=launcher1
+Path=
+Terminal=false
+StartupNotify=false

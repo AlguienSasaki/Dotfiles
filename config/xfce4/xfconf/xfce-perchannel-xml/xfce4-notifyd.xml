@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<channel name="xfce4-notifyd" version="1.0">
+  <property name="plugin" type="empty">
+    <property name="log-display-limit" type="int" value="100"/>
+  </property>
+  <property name="primary-monitor" type="uint" value="1"/>
+  <property name="notify-location" type="uint" value="2"/>
+  <property name="log-level" type="uint" value="0"/>
+  <property name="log-level-apps" type="uint" value="0"/>
+  <property name="applications" type="empty">
+    <property name="known_applications" type="array">
+      <value type="string" value="chromium"/>
+      <value type="string" value="mpd-notification"/>
+    </property>
+  </property>
+</channel>

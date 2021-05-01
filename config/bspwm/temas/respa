@@ -1,0 +1,39 @@
+#! /bin/sh
+
+#_____________________inicio_____________________#
+
+pgrep -x sxhkd > /dev/null || sxhkd &
+picom --experimental-backend &
+feh --bg-fill --randomize ~/Imágenes/'Fondos de escritorio'/Gruvbox &
+~/.config/polybar/launch.sh &
+mpd &
+mpd-notification &
+
+
+#_____________________config de los monitores_____________________#
+
+#bspc monitor -d  一  二  三  四  五  六  七  八  九 
+#bspc monitor -d I II III IV V VI VII VIII IX X
+#bspc monitor -d 0000 0001 0010 0011 0100 0101 0111 1000 1100
+bspc monitor -d 1 2 3 4 5 6 7
+bspc monitor HDMI1 -d 8 9
+
+#______________________
+
+bspc config border_width 	0
+bspc config window_gap 		10
+bspc config split_ratio         1 
+bspc config borderless_monocle   true
+bspc config gapless_monocle true
+#bspc config focus_follows_pointer true
+bspc config directional_focus_tightness low
+bspc config merge_overlapping_monitors true
+bspc config remove_unplugged_monitors true
+bspc config remove_disabled_monitors true
+bspc config pointer_modifier mod4
+bspc config focused_frame_opacity 0.05
+
+
+#____________________reglas del escritorio____________________#
+
+bspc rule -a Onboard state=floating follow=on

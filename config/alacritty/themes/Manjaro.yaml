@@ -1,0 +1,26 @@
+colors:
+  primary:
+    background: '#1e2229'
+    foreground: '#7f8c8d'
+  cursor:
+    text:       '#55a649'
+    cursor:     '#96d2de'
+  normal:
+    black:      '#010515'
+    red:        '#ed1515'
+    green:      '#44853a'
+    yellow:     '#f67400'
+    blue:       '#1d99f3'
+    magenta:    '#9b59b6'
+    cyan:       '#1abc9c'
+    white:      '#ffffff'
+  bright:
+    black:      '#69939b'
+    red:        '#c0392b'
+    green:      '#55a649'
+    yellow:     '#fdbc4b'
+    blue:       '#3daee9'
+    magenta:    '#8e44ad'
+    cyan:       '#16a085'
+    white:      '#fcfcfc'
+# END ACE

@@ -1,0 +1,69 @@
+env:
+  TERM: xterm-256color
+window:
+  padding:
+    x: 6
+    'y': 6
+  title: Alacritty
+  class:
+    instance: Alacritty
+    general: Alacritty
+scrolling:
+  history: 5000
+font:
+  normal:
+    family: DejaVuSansMono Nerd Font
+    style: Regular
+  bold:
+    family: DejaVuSansMono Nerd Font
+    style: Bold
+  italic:
+    family: DejaVuSansMono Nerd Font
+    style: italic
+  bold_italic:
+    family: DejaVuSansMono Nerd Font
+    style: Bold Italic
+  size: 6 
+  offset:
+    x: 0
+    'y': 1
+draw_bold_text_with_bright_colors: true
+colors:
+  primary:
+    foreground: '#fffbf6'
+    background: '#101421'
+    dim_foreground: '#eff0f1'
+    bright_foreground: '#ffffff'
+    dim_background: '#31363b'
+    bright_background: '#000000'
+  normal:
+    black: '#2e2e2e'
+    red: '#eb4129'
+    green: '#abe047'
+    yellow: '#f6c744'
+    blue: '#47a0f3'
+    magenta: '#7b5cb0'
+    cyan: '#64dbed'
+    white: '#e5e9f0'
+  bright:
+    black: '#565656'
+    red: '#ec5357'
+    green: '#c0e17d'
+    yellow: '#f9da6a'
+    blue: '#49a4f8'
+    magenta: '#a47de9'
+    cyan: '#99faf2'
+    white: '#ffffff'
+  cursor:
+    text: '#d8d8d8'
+    cursor: '#d8d8d8'
+  dim:
+    black: '#31363b'
+    red: '#783228'
+    green: '#17a262'
+    yellow: '#b65619'
+    blue: '#1b668f'
+    magenta: '#614a73'
+    cyan: '#186c60'
+    white: '#63686d'
+background_opacity: 0.9

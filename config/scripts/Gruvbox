@@ -1,0 +1,21 @@
+#!/bin/bash
+
+DIR=~/.config
+TEN=temas/Gruvbox
+
+cat $DIR/alacritty/$TEN > $DIR/alacritty/alacritty.yml &
+cat $DIR/bspwm/$TEN > $DIR/bspwm/bspwmrc & 
+cat $DIR/sxhkd/$TEN > $DIR/sxhkd/sxhkdrc &
+cat $DIR/dunst/$TEN > $DIR/dunst/dunstrc &
+cat $DIR/gtk-3.0/$TEN > $DIR/gtk-3.0/settings.ini &
+cat $DIR/polybar/blocks/launch.sh > $DIR/polybar/launch.sh &
+cat $DIR/rofi/$TEN > $DIR/rofi/config.rasi &
+bash $DIR/polybar/blocks/scripts/styles.sh --gruvbox &
+killall dunst &
+killall xfce4-panel &
+killall plank &
+spicetify config current_theme Material-Ocean &
+spicetify apply &
+bspc wm -r;dunstify -i $HOME/.config/dunst/iconpng/ram.png "Tema Gruvbox correctamente aplicado" &
+pkill -USR1 -x sxhkd
+

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+DIR=~/.config
+TEN=temas/Mac
+
+cat $DIR/alacritty/$TEN > $DIR/alacritty/alacritty.yml &
+cat $DIR/bspwm/$TEN > $DIR/bspwm/bspwmrc & 
+cat $DIR/sxhkd/$TEN > $DIR/sxhkd/sxhkdrc &
+cat $DIR/dunst/$TEN > $DIR/dunst/dunstrc &
+cat $DIR/gtk-3.0/$TEN > $DIR/gtk-3.0/settings.ini &
+cat $DIR/rofi/$TEN > $DIR/rofi/config.rasi &
+killall dunst &
+killall polybar &
+killall polybar &
+spicetify config current_theme Material-Ocean &
+spicetify apply &
+bspc wm -r;dunstify -i $DIR/dunst/iconpng/ram.png "Tema Pink correctamente aplicado" &
+pkill -USR1 -x sxhkd
+

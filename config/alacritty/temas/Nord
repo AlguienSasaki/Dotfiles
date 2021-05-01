@@ -1,0 +1,69 @@
+env:
+  TERM: xterm-256color
+window:
+  padding:
+    x: 6
+    'y': 6
+  title: Alacritty
+  class:
+    instance: Alacritty
+    general: Alacritty
+scrolling:
+  history: 5000
+font:
+  normal:
+    family: Hack Nerd Font
+    style: Regular
+  bold:
+    family: Hack Nerd Font
+    style: Bold
+  italic:
+    family: Hack Nerd Font
+    style: italic
+  bold_italic:
+    family: Hack Nerd Font
+    style: Bold Italic
+  size: 6 
+  offset:
+    x: 0 
+    'y': 1 
+draw_bold_text_with_bright_colors: true
+colors:
+  primary:
+    foreground: '0xd8dee9'
+    background: '0x2e3440'
+    dim_foreground: '#eff0f1'
+    bright_foreground: '#ffffff'
+    dim_background: '#31363b'
+    bright_background: '#000000'
+  normal:
+    black: '0x3b4252'
+    red: '0xbf616a'
+    green: '0xa3be8c'
+    yellow: '0xebcb8b'
+    blue: '0x81a1c1'
+    magenta: '0xb48ead'
+    cyan: '0x88c0d0'
+    white: '0xbfd5de'
+  bright:
+    black: '0x434c5e'
+    red: '0xbf616a'
+    green: '0xa3be8c'
+    yellow: '0xebcb8b'
+    blue: '0x81a1c1'
+    magenta: '0xb48ead'
+    cyan: '0x88c0d0'
+    white: '0xe5e9f0'
+  cursor:
+    text: '#d8d8d8'
+    cursor: '#d8d8d8'
+  dim:
+    black: '#31363b'
+    red: '#783228'
+    green: '#17a262'
+    yellow: '#b65619'
+    blue: '#1b668f'
+    magenta: '#614a73'
+    cyan: '#186c60'
+    white: '#63686d'
+background_opacity: 0.9
