@@ -1,0 +1,6 @@
+startup_screen = visualizer      
+startup_slave_screen = playlist  
+locked_screen_width_part = 55
+startup_slave_screen_focus = yes
+execute_on_song_change="~/.config/ncmpcpp/ncmpcpp-ueberzug/ncmpcpp_cover_art.sh"
+
