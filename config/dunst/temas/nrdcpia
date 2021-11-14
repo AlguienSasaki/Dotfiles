@@ -11,7 +11,7 @@
     horizontal_padding = 10
     frame_width = 3
 # Bordes De Notificaciones 
-frame_color = "#B48EAD"
+frame_color = "#B48EAD" 
 	
     # Define a color for the separator.
     # possible values are:
@@ -25,8 +25,7 @@ frame_color = "#B48EAD"
     sort = yes
 
     idle_threshold = 120
-    font = DejaVuSansMono NF 9
-    #font = San Francisco Display 9
+    font = terminus 9
     line_height = 3
     markup = full
 
@@ -51,7 +50,8 @@ frame_color = "#B48EAD"
     hide_duplicate_count = true
     show_indicators = yes
     icon_position = left
-    max_icon_size = 60
+    max_icon_size = 50
+    #icon_path = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/:/usr/share/icons/Adwaita/256x256/status/
     sticky_history = yes
     history_length = 20
     dmenu = /usr/bin/dmenu -p dunst:
@@ -66,6 +66,12 @@ frame_color = "#B48EAD"
     force_xinerama = false
 [experimental]
     per_monitor_dpi = false
+
+#[shortcuts]
+#    close = ctrl+space
+#    close_all = ctrl+shift+space
+#    history = ctrl+grave
+#    context = ctrl+shift+period
 
 [urgency_low]
     background = "#A3BE8C"

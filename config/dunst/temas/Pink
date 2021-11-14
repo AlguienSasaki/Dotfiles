@@ -11,7 +11,7 @@
     horizontal_padding = 10
     frame_width = 3
 # Bordes De Notificaciones 
-frame_color = "#FF51DC"
+frame_color = "#df7a87"
 	
     # Define a color for the separator.
     # possible values are:
@@ -25,7 +25,8 @@ frame_color = "#FF51DC"
     sort = yes
 
     idle_threshold = 120
-    font = terminus 9
+    font = DejaVuSansMono NF 9
+    #font = San Francisco Display 9
     line_height = 3
     markup = full
 
@@ -50,8 +51,7 @@ frame_color = "#FF51DC"
     hide_duplicate_count = true
     show_indicators = yes
     icon_position = left
-    max_icon_size = 50
-    #icon_path = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/:/usr/share/icons/Adwaita/256x256/status/
+    max_icon_size = 60
     sticky_history = yes
     history_length = 20
     dmenu = /usr/bin/dmenu -p dunst:
@@ -74,82 +74,9 @@ frame_color = "#FF51DC"
 #    context = ctrl+shift+period
 
 [urgency_low]
-    # IMPORTANT: colors have to be defined in quotation marks.
-    # Otherwise the "#" and following would be interpreted as a comment.
-    background = "#181818"
-    foreground = "#b1a57d"
-    timeout = 5
-    # Icon for notifications with low urgency, uncomment to enable
-    #icon = /path/to/icon
 
 [urgency_normal]
-    background = "#181818"
-# Letra de Notificaciones
-foreground = "#ebddb2"
-     foreground = "#dddddd"
-     timeout = 5
+    background = "#0d202f"
+    foreground = "#fbfbfb"
 
 [urgency_critical]
-    background = "#181818"
-    foreground = "#ff0000"
-    frame_color = "#fff000"
-    timeout = 0
-
-# Every section that isn't one of the above is interpreted as a rules to
-# override settings for certain messages.
-# Messages can be matched by "appname", "summary", "body", "icon", "category",
-# "msg_urgency" and you can override the "timeout", "urgency", "foreground",
-# "background", "new_icon" and "format".
-# Shell-like globbing will get expanded.
-#
-# SCRIPTING
-# You can specify a script that gets run when the rule matches by
-# setting the "script" option.
-# The script will be called as follows:
-#   script appname summary body icon urgency
-# where urgency can be "LOW", "NORMAL" or "CRITICAL".
-#
-# NOTE: if you don't want a notification to be displayed, set the format
-# to "".
-# NOTE: It might be helpful to run dunst -print in a terminal in order
-# to find fitting options for rules.
-
-#[espeak]
-#    summary = "*"
-#    script = dunst_espeak.sh
-
-#[script-test]
-#    summary = "*script*"
-#    script = dunst_test.sh
-
-#[ignore]
-#    # This notification will not be displayed
-#    summary = "foobar"
-#    format = ""
-
-#[history-ignore]
-#    # This notification will not be saved in history
-#    summary = "foobar"
-#    history_ignore = yes
-
-#[signed_on]
-#    appname = Pidgin
-#    summary = "*signed on*"
-#    urgency = low
-#
-#[signed_off]
-#    appname = Pidgin
-#    summary = *signed off*
-#    urgency = low
-#
-#[says]
-#    appname = Pidgin
-#    summary = *says*
-#    urgency = critical
-#
-#[twitter]
-#    appname = Pidgin
-#    summary = *twitter.com*
-#    urgency = normal
-#
-# vim: ft=cfg
