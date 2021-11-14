@@ -1,0 +1,25 @@
+#!/bin/bash
+
+DIR=~/.config
+TEN=temas/Dark
+
+# Write new appeareance
+
+cat $DIR/alacritty/$TEN > $DIR/alacritty/alacritty.yml &
+cat $DIR/dunst/$TEN > $DIR/dunst/dunstrc &
+cat $DIR/gtk-3.0/$TEN > $DIR/gtk-3.0/settings.ini &
+cat $DIR/polybar/bspwmbydarch/launch.sh > $DIR/polybar/launch.sh &
+cat $DIR/rofi/$TEN > $DIR/rofi/config.rasi &
+echo "dunstify -i ~/.config/dunst/iconpng/vap.jpg 'Tema Vaporware correctamente aplicado' " > $DIR/scripts/dunst.sh &
+echo "feh --bg-fill --randomize ~/Imágenes/Fondos\ de\ escritorio/Dark" > $DIR/scripts/wal.sh &
+
+# Kill process
+
+killall mpd-notification dunst xfce4-panel plank &
+
+# Apply 
+bspc config bottom_padding 0 ; bspc config top_padding 0 & 
+bspc wm -r &
+ bash ~/.config/polybar/bspwmbdarch/launch.sh &
+pkill -USR1 -x sxhkd &
+$DIR/scripts/dunst.sh &

@@ -1,0 +1,24 @@
+#!/bin/bash
+
+DIR=~/.config
+TEN=temas/Pink
+
+# Write new appeareance
+
+cat $DIR/alacritty/$TEN > $DIR/alacritty/alacritty.yml &
+cat $DIR/dunst/$TEN > $DIR/dunst/dunstrc &
+cat $DIR/gtk-3.0/$TEN > $DIR/gtk-3.0/settings.ini &
+cat $DIR/polybar/material/launch.sh > $DIR/polybar/launch.sh &
+cat $DIR/rofi/$TEN > $DIR/rofi/config.rasi &
+echo "dunstify -i ~/.config/dunst/iconpng/ram.png 'Tema Pink correctamente aplicado' " > $DIR/scripts/dunst.sh &
+echo "feh --bg-fill --randomize ~/Imágenes/Fondos\ de\ escritorio/Pink" > $DIR/scripts/wal.sh &
+
+# Kill process
+
+killall mpd-notification dunst xfce4-panel plank &
+
+# Apply 
+
+bspc config top_padding 0 ; bspc wm -r &
+pkill -USR1 -x sxhkd &
+$DIR/scripts/dunst.sh &
