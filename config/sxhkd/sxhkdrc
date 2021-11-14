@@ -16,9 +16,6 @@ super + Escape
 # Launch Terminal Emulator 
 super + Return
 	alacritty
-# Launch Terminal Emulator Whit Tmux
-super + ctrl + alt +  t
-	alacritty -e tmux
 
 # Close Notification
 ctrl + space
@@ -32,92 +29,81 @@ ctrl + shift + space
 super + @space
 	rofi -show run
 
-# Lanzar el menú que cambia la polybar
-super + shift + p
-	~/.config/scripts/polychange.sh
-
 #choose the theme
 super + shift + a
-        bash ~/.config/scripts/Aspect.sh
+	~/.config/scripts/appeareance/Aspect.sh
 
 # Launch Web Browser
 super + w
-	chromium
+	chromium	
 
 # Launch Web browser In Incognito Mode
 super + shift + w 
 	chromium --incognito
 
-
-# Screenshots
-Print
-	gnome-screenshot
-
 # Screenshot (only area)
 super + Print 
 	gnome-screenshot -a
 
-
-# Launch Terminal Files Manager
+# Launch File Manager Based on Terminal
 super + r
 	alacritty -e ranger
 
 # Change Wallpaper
 super + n
-	feh --bg-fill --randomize ~/Imágenes/'Fondos de escritorio'/Gruvbox 
+	~/.config/scripts/wal.sh
 
 # Launch PDF Viewer
 super + e
-	evince
+	evince	
 
 # Launch Music Player
 super + m
-	alacritty -e ncmpcpp 
+	alacritty -e ncmpcpp-ueberzug 
 
 # Launch System Monitor
-super + h
-	alacritty -e htop
+#super + h
+#	alacritty -e htop
 
-
-# Launch Visual Studio Code
+# Launch cmatrix
 super + c
-	code-oss
+	alacritty -e cmatrix
 
-# Volume Down
-XF86AudioLowerVolume
-	pactl set-sink-volume 0 -5% & amixer set Master 5%-
+# Music options
+super + p 
+	~/.config/rofi/applets/android/mpd.sh
 
-# Volume Up
-XF86AudioRaiseVolume
-	pactl set-sink-volume 0 +5% & amixer set Master 5%+
+# change windows
+super + Tab
+	rofi -application-fallback-icon -show window
+
+# Modify volume 
+{XF86AudioLowerVolume,XF86AudioRaiseVolume}
+	{pactl set-sink-volume alsa_output.pci-0000_00_09.2.analog-stereo -5% & pactl set-sink-volume bluez_sink.41_42_2A_08_F5_94.a2dp_sink -5%, pactl set-sink-volume alsa_output.pci-0000_00_09.2.analog-stereo +5% & pactl set-sink-volume bluez_sink.41_42_2A_08_F5_94.a2dp_sink +5% }
+
 
 # Mute & Unmute Volume
-XF86AudioMute
-	
-	{amixer sset Master mute;dunstify -i $HOME/.config/dunst/iconpng/arch.png Audio Deshabilitado,amixer sset Master unmute;dunstify -i $HOME/.config/dunst/iconpng/arch.png Audio Habilitado}
+XF86AudioMute	
+	{amixer sset Master mute;dunstify -i $HOME/.config/dunst/iconpng/arch.png Audio Deshabilitado, amixer sset Master unmute;dunstify -i $HOME/.config/dunst/iconpng/arch.png Audio Habilitado}
 
+# Mute Mic & Unmute mic
+XF86AudioMicMute
+	~/.config/scripts/micr.sh
 
 # Decrease Brightness
-XF86MonBrightnessDown
-	light -U 10
-
-# Increase Brightness
-XF86MonBrightnessUp
-	light -A 10
-
+{XF86MonBrightnessDown, XF86MonBrightnessUp}
+	{light -U 10, light -A 10} 
 
 # Lock PC
 super + l 
-	systemctl suspend & dm-tool lock
+	betterlockscreen -l
+	#GLITCHICON=~/.config/glitchlock/stop.png ~/.config/glitchlock/glitchlock
 
-# Lock PC 2 XD
-super + ctrl + x
-	GLITCHICON=~/.config/glitchlock/stop.png ~/.config/glitchlock/glitchlock
+# Screenshots
+Print
+	gnome-screenshot
 
 
-
-
-#_______________________________________________________________
 #
 #     ██████╗ ███████╗██████╗ ██╗    ██╗███╗   ███╗
 #     ██╔══██╗██╔════╝██╔══██╗██║    ██║████╗ ████║
@@ -131,7 +117,6 @@ super + ctrl + x
 # Restart bspwm
 super + alt + r 
 	bspc wm -r;dunstify -i $HOME/.config/dunst/iconpng/arch.png BSPWMRC RECARGADO
-
 
 # Close & Kill
 super + {_,shift + }q
@@ -166,7 +151,7 @@ super + ctrl + {m,x,y,z}
 #____________________________________________________________________________________
 
 # focus the node in the given direction
-super + {_,shift + }{Left,Down,Up,Right}
+super + {_,shift + }{h,j,k,Right}
 	bspc node -{f,s} {west,south,north,east}
 
 # focus the node for the given path jump
@@ -178,11 +163,11 @@ super + {_,shift + }c
 	bspc node -f {next,prev}.local.!hidden.window
 
 # focus the next/previous desktop in the current monitor
-super + bracket{left,right}
+super + bracket{j,k}
 	bspc desktop -f {prev,next}.local
 
 # focus the last node/desktop
-super + {grave,Tab}
+super + {grave,}
 	bspc {node,desktop} -f last
 
 # focus the older or newer node in the focus history
@@ -205,8 +190,8 @@ super + {_,shift + }{1-9,0}
 #
 
 # preselect the direction
-super + ctrl + {Left,Down,Up,Right}
-	bspc node -p {west,south,north,east}
+#super + ctrl + {Left,Down,Up,Right}
+#	bspc node -p {west,south,north,east}
 
 # preselect the ratio
 super + ctrl + {1-9}
@@ -214,7 +199,7 @@ super + ctrl + {1-9}
 
 # cancel the preselection for the focused node
 super + ctrl + space
-	bspc node -p cancel
+	bspc node -p cXkbLayoutancel
 
 # cancel the preselection for the focused desktop
 super + ctrl + shift + space
@@ -241,3 +226,8 @@ super + alt + shift + {Left,Down,Up,Right}
 super + {a,x,w,d}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
 
+super + button{4,5}
+	bspc config window_gap $(( $(bspc config window_gap) {-,+} 5 ))
+
+ctrl + super + {Left,Right}
+	bspc desktop -f {prev,next} 
