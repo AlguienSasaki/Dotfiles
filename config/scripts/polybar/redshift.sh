@@ -1,7 +1,7 @@
 #!/bin/sh
 
-envFile=~/.config/polybar/scripts/env.sh
-changeValue=300
+envFile=~/.config/scripts/polybar/env.sh
+changeValue=100
 
 changeMode() {
   sed -i "s/REDSHIFT=$1/REDSHIFT=$2/g" $envFile 
@@ -37,10 +37,10 @@ case $1 in
   temperature)
     case $REDSHIFT in
       on)
-        printf "%dK" "$REDSHIFT_TEMP"
+        printf " %dK " " $REDSHIFT_TEMP"
         ;;
       off)
-        printf "off"
+        printf " off "
         ;;
     esac
     ;;

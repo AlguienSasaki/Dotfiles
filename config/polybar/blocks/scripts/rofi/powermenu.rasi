@@ -121,3 +121,8 @@ element selected {
     border-radius:                  0px;
     border-color:                  	@ac;
 }
+
+element-text, element-icon {
+    background-color: inherit;
+    text-color:       inherit;
+}
