@@ -79,7 +79,7 @@ super + p
 
 # change windows
 super + Tab
-	rofi -application-fallback-icon -show window
+	~/.config/scripts/switcher.sh
 
 # Modify volume 
 {XF86AudioLowerVolume,XF86AudioRaiseVolume}
