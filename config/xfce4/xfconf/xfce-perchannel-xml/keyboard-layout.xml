@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<channel name="keyboard-layout" version="1.0">
-  <property name="Default" type="empty">
-    <property name="XkbLayout" type="string" value="latam"/>
-    <property name="XkbVariant" type="string" value=""/>
-  </property>
-</channel>
