@@ -14,6 +14,7 @@ nord="		Nord"
 gruvb="		Gruvbox"
 dark="		Dark"
 aes="	     	Aesthetic"
+cap="		Catppuccin"
 
 # Confirmation
 confirm_exit() {
@@ -30,7 +31,7 @@ msg() {
 }
 
 # Variable passed to rofi
-options="$gray\n$vap\n$nord\n$gruvb\n$dark\n$aes"
+options="$gray\n$cap\n$gruvb\n$nord\n$vap\n$dark\n$aes"
 
 chosen="$(echo -e "$options" | $rofi_command -p "Uptime: $uptime" -dmenu -selected-row 0)"
 case $chosen in
@@ -71,11 +72,19 @@ case $chosen in
 			bash ~/.config/scripts/appeareance/Vaporware
 		fi
         ;;
-    $aes)
+     $aes)
 		if [[ -f/bin/bash ]]; then
 			bash ~/.config/scripts/appeareance/Aesthetic/Aspect.sh
 		elif [[ -f /usr/bin/bash ]]; then
 			bash ~/.config/scripts/appeareance/Aesthetic/Aspect.sh
+		fi
+        ;;
+
+    $cap)
+		if [[ -f/bin/bash ]]; then
+			bash ~/.config/scripts/appeareance/catppuccin
+		elif [[ -f /usr/bin/bash ]]; then
+			bash ~/.config/scripts/appeareance/catppuccin
 		fi
         ;;
 
