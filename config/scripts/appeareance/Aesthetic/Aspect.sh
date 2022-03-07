@@ -8,6 +8,7 @@ PNT=";dunstify -i $HOME/.config/dunst/iconpng/arch.png"
 
 # Options
 ap="	     	Pink"
+ab="	     	Blue"
 
 # Confirmation
 confirm_exit() {
@@ -24,7 +25,7 @@ msg() {
 }
 
 # Variable passed to rofi
-options="$ap"
+options="$ap\n$ab"
 
 chosen="$(echo -e "$options" | $rofi_command -p "Uptime: $uptime" -dmenu -selected-row 0)"
 case $chosen in
@@ -33,6 +34,15 @@ case $chosen in
 			bash ~/.config/scripts/appeareance/Aesthetic/Pink
 		elif [[ -f /usr/bin/bash ]]; then
 			bash ~/.config/scripts/appeareance/Aesthetic/Pink
+			a
+		fi
+        ;;
+
+    $ab)
+		if [[ -f/bin/bash ]]; then
+			bash ~/.config/scripts/appeareance/Aesthetic/Blue
+		elif [[ -f /usr/bin/bash ]]; then
+			bash ~/.config/scripts/appeareance/Aesthetic/Blue
 			a
 		fi
         ;;

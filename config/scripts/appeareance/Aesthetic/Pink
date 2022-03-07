@@ -8,8 +8,9 @@ TEN=temas/Aesthetic/Pink
 cat $DIR/alacritty/$TEN > $DIR/alacritty/alacritty.yml &
 cat $DIR/dunst/$TEN > $DIR/dunst/dunstrc &
 cat $DIR/gtk-3.0/$TEN > $DIR/gtk-3.0/settings.ini &
-cat $DIR/polybar/colorblocks/launch.sh > $DIR/polybar/launch.sh &
 cat $DIR/rofi/$TEN > $DIR/rofi/config.rasi &
+cat $DIR/polybar/colorblocks/$TEN > $DIR/polybar/colorblocks/colors.ini &
+cat $DIR/polybar/colorblocks/launch.sh > $DIR/polybar/launch.sh &
 echo "dunstify -i ~/.config/dunst/iconpng/Gray.jpg 'Tema Gray correctamente aplicado' " > $DIR/scripts/dunst.sh &
 echo "feh --bg-fill --randomize ~/Imágenes/Fondos\ de\ escritorio/Aesthetic/Pink" > $DIR/scripts/wal.sh &
 

@@ -46,8 +46,8 @@ textbox-prompt-colon {
 	background-color: 				@ac;
 	text-color: 					@fg;
 	expand: false;
-	str: "";
-	font:							"feather 12";
+	str: " ";
+	font:							"Iosevka Nerd Font 12";
 }
 
 entry {

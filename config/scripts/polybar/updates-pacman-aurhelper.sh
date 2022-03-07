@@ -16,7 +16,7 @@ fi
 updates=$((updates_arch + updates_aur))
 
 if [ "$updates" -gt 0 ]; then
-    echo " Aur: $updates"
+    echo "  Aur: $updates"
 else
     echo ""
 fi

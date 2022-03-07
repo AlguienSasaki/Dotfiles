@@ -63,7 +63,7 @@ super + e
 
 # Launch Music Player
 super + m
-	alacritty -e ncmpcpp
+	alacritty -e ncmpcpp-ueberzug
 
 # Launch System Monitor
 #super + h
@@ -97,6 +97,14 @@ XF86AudioMicMute
 # Decrease Brightness
 {XF86MonBrightnessDown, XF86MonBrightnessUp}
 	{light -U 10, light -A 10} 
+
+# Set Brightness to 0
+super + XF86MonBrightnessDown
+	light -S 0
+
+# Set Brightness to 100
+super + XF86MonBrightnessUp
+	light -S 100
 
 # Lock PC
 #super + l 
@@ -154,7 +162,7 @@ super + ctrl + {m,x,y,z}
 #____________________________________________________________________________________
 
 # focus the node in the given direction
-super + {_,shift + }{h,j,k,l}
+super + {_,shift + }{Left,Down,Up,Right}
 	bspc node -{f,s} {west,south,north,east}
 
 # focus the node for the given path jump
@@ -193,8 +201,8 @@ super + {_,shift + }{1-9,0}
 #
 
 # preselect the direction
-#super + ctrl + {Left,Down,Up,Right}
-#	bspc node -p {west,south,north,east}
+super + ctrl + {Left,Down,Up,Right}
+	bspc node -p {west,south,north,east}
 
 # preselect the ratio
 super + ctrl + {1-9}
@@ -232,5 +240,5 @@ super + {a,x,w,d}
 super + button{4,5}
 	bspc config window_gap $(( $(bspc config window_gap) {-,+} 5 ))
 
-ctrl + super + {Left,Right}
-	bspc desktop -f {prev,next} 
+#ctrl + super + {Left,Right}
+#	bspc desktop -f {prev,next} 

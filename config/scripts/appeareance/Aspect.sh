@@ -1,12 +1,37 @@
 #!/usr/bin/env bash
 
 dir="~/.config/polybar/blocks/scripts/rofi"
-uptime=$(uptime -p | sed -e 's/up //g')
-DIR="/home/alguien/.config/polybar"
 rofi_command="rofi -theme $dir/powermenu.rasi"
-PNT=";dunstify -i $HOME/.config/dunst/iconpng/arch.png"
 
-# Options
+theme () {
+  DIR=~/.config
+  TEN=temas/$1
+
+  # Write new appeareance
+  
+  cat $DIR/alacritty/$TEN > $DIR/alacritty/alacritty.yml &
+  cat $DIR/dunst/$TEN > $DIR/dunst/dunstrc &
+  cat $DIR/gtk-3.0/$TEN > $DIR/gtk-3.0/settings.ini &
+  cat $DIR/polybar/$2/launch.sh > $DIR/polybar/launch.sh &
+  cat $DIR/rofi/$TEN > $DIR/rofi/config.rasi &
+  echo "dunstify -i ~/.config/dunst/iconpng/Gray.jpg 'Tema Gray correctamente aplicado' " > $DIR/scripts/dunst.sh &
+  echo "feh --bg-fill --randomize ~/Imágenes/Fondos\ de\ escritorio/$1" > $DIR/scripts/wal.sh &
+  
+  # Kill process
+  
+  killall mpd-notification dunst xfce4-panel plank &
+  
+  # Apply
+  
+  bspc config bottom_padding 0 ; bspc config top_padding 0 &
+  bspc wm -r &
+  pkill -USR1 -x sxhkd &
+  $DIR/scripts/dunst.sh &
+
+}
+
+# Availabe themes
+
 gray="		Graveyard"
 vap="		Vaporware"
 #pink="		Pink"
@@ -16,83 +41,47 @@ dark="		Dark"
 aes="	     	Aesthetic"
 cap="		Catppuccin"
 
-# Confirmation
-confirm_exit() {
-	rofi -dmenu\
-		-i\
-		-no-fixed-num-lines\
-		-p "Are You Sure? : "\
-		-theme $dir/confirm.rasi
-}
-
-# Message
-msg() {
-	rofi -theme "$dir/message.rasi" -e "Available Options  -  yes / y / no / n"
-}
-
 # Variable passed to rofi
+
 options="$aes\n$cap\n$gray\n$gruvb\n$nord\n$vap\n$dark"
 
-chosen="$(echo -e "$options" | $rofi_command -p "Uptime: $uptime" -dmenu -selected-row 0)"
+chosen="$(echo -e "$options" | $rofi_command -p "	Select Your Theme" -dmenu -selected-row 0)"
 case $chosen in
     $nord)
-		ans=$(confirm_exit &)
-		if [[ $ans == "yes" || $ans == "YES" || $ans == "y" || $ans == "Y" ]]; then
-			bash ~/.config/scripts/appeareance/Nord
-		elif [[ $ans == "no" || $ans == "NO" || $ans == "n" || $ans == "N" ]]; then
-			bash ~/.config/scripts/appeareance/Nord
-			exit 0
-        else
-			msg
+		if [[ -f/bin/bash ]]; then		
+			theme Nord blocks &&  ~/config/polybar/blocks/scripts/styles.sh --default & 
         fi
         ;;
     $gruvb)
-		ans=$(confirm_exit &)
-		if [[ $ans == "yes" || $ans == "YES" || $ans == "y" || $ans == "Y" ]]; then
-			bash ~/.config/scripts/appeareance/Gruvbox
-		elif [[ $ans == "no" || $ans == "NO" || $ans == "n" || $ans == "N" ]]; then
-			bash ~/.config/scripts/appeareance/Gruvbox
-			exit 0
-        else
-			msg
-        fi
+		if [[ -f/bin/bash ]]; then
+			theme Gruvbox blocks &&  ~/config/polybar/blocks/scripts/styles.sh --gruvbox &
+		fi
         ;;
     $dark)
 		if [[ -f/bin/bash ]]; then
-			bash ~/.config/scripts/appeareance/Dark
-		elif [[ -f /usr/bin/bash ]]; then
-			bash ~/.config/scripts/appeareance/Dark
-			a
+			theme Dark bspwmbdarch 
 		fi
         ;;
     $vap)
 		if [[ -f/bin/bash ]]; then
-			bash ~/.config/scripts/appeareance/Vaporware
-		elif [[ -f /usr/bin/bash ]]; then
-			bash ~/.config/scripts/appeareance/Vaporware
+			theme Vaporware forest 
 		fi
         ;;
      $aes)
 		if [[ -f/bin/bash ]]; then
-			bash ~/.config/scripts/appeareance/Aesthetic/Aspect.sh
-		elif [[ -f /usr/bin/bash ]]; then
 			bash ~/.config/scripts/appeareance/Aesthetic/Aspect.sh
 		fi
         ;;
 
     $cap)
 		if [[ -f/bin/bash ]]; then
-			bash ~/.config/scripts/appeareance/catppuccin
-		elif [[ -f /usr/bin/bash ]]; then
-			bash ~/.config/scripts/appeareance/catppuccin
+			theme catppuccin shapes 
 		fi
         ;;
 
     $gray)
 		if [[ -f/bin/bash ]]; then
-			bash ~/.config/scripts/appeareance/Gray
-		elif [[ -f /usr/bin/bash ]]; then
-			bash ~/.config/scripts/appeareance/Gray
+			theme Graveyard murz
 		fi
         ;;
 esac

@@ -66,31 +66,31 @@ colors:
     magenta: '#614a73'
     cyan: '#186c60'
     white: '#63686d'
-window.opacity: 0.9
+windows.opacity: 0.9
 # BEGIN ACE
 colors:
   primary:
-    background: '#0D120E'
-    foreground: '#e6e6e6'
+    background: '#284549'
+    foreground: '#e5e8e9'
   cursor:
-    text:       '#0D120E'
-    cursor:     '#e6e6e6'
+    text:       '#284549'
+    cursor:     '#e5e8e9'
   normal:
-    black:      '#0D120E'
-    red:        '#A16253'
-    green:      '#7C817D'
-    yellow:     '#968D75'
-    blue:       '#9B9C99'
-    magenta:    '#C8BEB1'
-    cyan:       '#D4D5D4'
-    white:      '#e6e6e6'
+    black:      '#284549'
+    red:        '#99A1A5'
+    green:      '#E2ABA7'
+    yellow:     '#F7C2BD'
+    blue:       '#B3C5C9'
+    magenta:    '#CDD3D5'
+    cyan:       '#FAD2CE'
+    white:      '#e5e8e9'
   bright:
-    black:      '#a1a1a1'
-    red:        '#A16253'
-    green:      '#7C817D'
-    yellow:     '#968D75'
-    blue:       '#9B9C99'
-    magenta:    '#C8BEB1'
-    cyan:       '#D4D5D4'
-    white:      '#e6e6e6'
+    black:      '#a0a2a3'
+    red:        '#99A1A5'
+    green:      '#E2ABA7'
+    yellow:     '#F7C2BD'
+    blue:       '#B3C5C9'
+    magenta:    '#CDD3D5'
+    cyan:       '#FAD2CE'
+    white:      '#e5e8e9'
 # END ACE
