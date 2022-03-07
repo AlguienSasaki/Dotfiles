@@ -1,7 +1,8 @@
-My bspwm Dotfiles. I use Gentoo btw
+My bspwm Dotfiles. I use Arch btw
 
-Black
-![Captura de pantalla de 2022-01-22 16-50-40](https://user-images.githubusercontent.com/79339064/150658106-e3e0c6c9-79ab-477f-a9b7-296bac855572.png)
+Graveyard
+![Captura de pantalla de 2022-03-06 22-10-41](https://user-images.githubusercontent.com/79339064/156967463-6b1a405c-ab2c-45ba-8cbd-1342c7977ac1.png)
+
 
 ✨ A E S T H E T I C ✨ (Pink)
 ![263642261_612871273248999_8531427196946161045_n png](https://user-images.githubusercontent.com/79339064/150658111-6e90cb1a-ca18-42e7-afe1-e3d7e698b301.jpg)
