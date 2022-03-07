@@ -3,8 +3,12 @@ My bspwm Dotfiles. I use Gentoo btw
 Black
 ![Captura de pantalla de 2022-01-22 16-50-40](https://user-images.githubusercontent.com/79339064/150658106-e3e0c6c9-79ab-477f-a9b7-296bac855572.png)
 
-✨ A E S T H E T I C ✨
+✨ A E S T H E T I C ✨ (Pink)
 ![263642261_612871273248999_8531427196946161045_n png](https://user-images.githubusercontent.com/79339064/150658111-6e90cb1a-ca18-42e7-afe1-e3d7e698b301.jpg)
+
+✨ A E S T H E T I C ✨ (Blue)
+![Captura de pantalla de 2022-03-06 19-48-56](https://user-images.githubusercontent.com/79339064/156954229-e459fd81-941e-49c7-bc74-f87ac9161b08.png)
+
 
 Nord
 ![Captura de pantalla de 2021-03-30 23-56-57](https://user-images.githubusercontent.com/79339064/114251726-b7d80180-9967-11eb-8901-05087e794ce1.png)
