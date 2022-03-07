@@ -7,10 +7,10 @@ rofi_command="rofi -theme $dir/powermenu.rasi"
 PNT=";dunstify -i $HOME/.config/dunst/iconpng/arch.png"
 
 # Options
-gray="		Gray"
+gray="		Graveyard"
 vap="		Vaporware"
 #pink="		Pink"
-nord="		Nord"
+nord="		Nordic"
 gruvb="		Gruvbox"
 dark="		Dark"
 aes="	     	Aesthetic"
@@ -31,7 +31,7 @@ msg() {
 }
 
 # Variable passed to rofi
-options="$gray\n$cap\n$gruvb\n$nord\n$vap\n$dark\n$aes"
+options="$aes\n$cap\n$gray\n$gruvb\n$nord\n$vap\n$dark"
 
 chosen="$(echo -e "$options" | $rofi_command -p "Uptime: $uptime" -dmenu -selected-row 0)"
 case $chosen in

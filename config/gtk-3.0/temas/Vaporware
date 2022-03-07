@@ -1,5 +1,5 @@
 [Settings]
-gtk-theme-name=Sweet-Dark
+gtk-theme-name=Sweet-Dark-v40
 gtk-icon-theme-name=candy-icons
 gtk-font-name=San Francisco Display 11
 gtk-cursor-theme-name=Sweet-cursors
@@ -12,4 +12,5 @@ gtk-enable-event-sounds=1
 gtk-enable-input-feedback-sounds=1
 gtk-xft-antialias=1
 gtk-xft-hinting=1
-gtk-xft-hintstyle=hintfull
+gtk-xft-hintstyle=hintmedium
+gtk-decoration-layout=appmenu:close

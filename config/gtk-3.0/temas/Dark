@@ -15,3 +15,4 @@ gtk-xft-hinting=1
 gtk-xft-hintstyle=hintfull
 gtk-xft-rgba=rgb
 gtk-application-prefer-dark-theme=0
+gtk-decoration-layout = appmenu:close
