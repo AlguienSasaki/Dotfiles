@@ -35,10 +35,11 @@ theme () {
 
 pink="		Pink"
 bu="		Blue"
+cap="		Cappuccino"
 
 # Variable passed to rofi
 
-options="$pink\n$bu"
+options="$bu\n$cap\n$pink"
 
 chosen="$(echo -e "$options" | $rofi_command -p "	Select Your Theme" -dmenu -selected-row 0)"
 case $chosen in
@@ -52,31 +53,31 @@ case $chosen in
 			theme Blue colorblocks		
 	fi
         ;;
-    $dark)
-		if [[ -f/bin/bash ]]; then
-			theme Dark bspwmbdarch 
-		fi
-        ;;
-    $vap)
-		if [[ -f/bin/bash ]]; then
-			theme Vaporware forest 
-		fi
-        ;;
-     $aes)
-		if [[ -f/bin/bash ]]; then
-			bash ~/.config/scripts/appeareance/Aesthetic/Aspect.sh
-		fi
-        ;;
-
     $cap)
 		if [[ -f/bin/bash ]]; then
-			theme catppuccin shapes 
+			theme Cappuccino colorblocks
 		fi
         ;;
-
-    $gray)
-		if [[ -f/bin/bash ]]; then
-			theme Graveyard murz
-		fi
-        ;;
+#    $vap)
+#		if [[ -f/bin/bash ]]; then
+#			theme Vaporware forest 
+#		fi
+#        ;;
+#     $aes)
+#		if [[ -f/bin/bash ]]; then
+#			bash ~/.config/scripts/appeareance/Aesthetic/Aspect.sh
+#		fi
+#        ;;
+#
+#    $cap)
+#		if [[ -f/bin/bash ]]; then
+#			theme catppuccin shapes 
+#		fi
+#        ;;
+#
+#    $gray)
+#		if [[ -f/bin/bash ]]; then
+#			theme Graveyard murz
+#		fi
+#        ;;
 esac
