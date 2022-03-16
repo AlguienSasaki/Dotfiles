@@ -2,12 +2,15 @@
     My Dotfiles. 
 </h1>
 
+
 * **OS**: Arch Linux (It work on gentoo)
 * **WM**: **[BSPWM](https://github.com/baskerville/bspwm)**
 * **Bar**: **[Polybar](https://github.com/polybar/polybar)**
 * **Terminal**:  **[Alacritty](https://github.com/alacritty/alacritty)**
 * **Terminal-Font**: Hack Nerd Font
-* **Notifications**: **[Dunst](https://github.com/dunst-project/dunst)**    
+* **Notifications**: **[Dunst](https://github.com/dunst-project/dunst)** 
+* **Launcher**: **[Rofi](https://github.com/davatorium/rofi)** 
+* **Compositor**: **[Picom](https://github.com/jonaburg/picom/)** 
 
 Graveyard
 ![Captura de pantalla de 2022-03-06 22-10-41](https://user-images.githubusercontent.com/79339064/156967463-6b1a405c-ab2c-45ba-8cbd-1342c7977ac1.png)
