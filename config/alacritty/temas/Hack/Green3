@@ -31,30 +31,30 @@ draw_bold_text_with_bright_colors: true
 window.opacity: 0.9
 # Colors (Hyper)
 colors:
-  name: Catch Me If You Can
-  author: dkeg
+  name: Matrix
+  author: OK100
   primary:
-    background: "#170f0d"
-    foreground: "#f9f9f9"
+    background: "#000000"
+    foreground: "#00cc00"
   cursor:
-    text: "#170f0d"
-    cursor: "#f9f9f9"
+    text: "#000000"
+    cursor: "#00cc00"
   normal:
-    black: "#130f0c"
-    red: "#604c38"
-    green: "#8d7f85"
-    yellow: "#907256"
-    blue: "#aa8d70"
-    magenta: "#b9a38d"
-    cyan: "#c4bfbf"
-    white: "#c4ae99"
+    black: "#000000"
+    red: "#55ff55"
+    green: "#00cc00"
+    yellow: "#00cc00"
+    blue: "#005500"
+    magenta: "#55ff55"
+    cyan: "#00cc00"
+    white: "#00cc00"
   bright:
-    black: "#c69f77"
-    red: "#cab9a8"
-    green: "#d5c6b8"
-    yellow: "#dcd1c7"
-    blue: "#e0e0e2"
-    magenta: "#e4dad2"
-    cyan: "#eae3dc"
-    white: "#f6f2f0"
-theme: Dkeg - catchmeifyoucan
+    black: "#000000"
+    red: "#55ff55"
+    green: "#55ff55"
+    yellow: "#55ff55"
+    blue: "#005500"
+    magenta: "#55ff55"
+    cyan: "#55ff55"
+    white: "#00cc00"
+theme: OK100 - Matrix

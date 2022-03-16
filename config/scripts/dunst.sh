@@ -1,1 +1,1 @@
-dunstify -i ~/.config/dunst/iconpng/Gray.jpg 'Tema Gray correctamente aplicado' 
+dunstify -i ~/.config/dunst/iconpng/Graveyard.jpg 'Tema Graveyard correctamente aplicado' 

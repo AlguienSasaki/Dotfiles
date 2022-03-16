@@ -1,5 +1,29 @@
-include-file = ~/.config/polybar/bspwmbdarch/colors.ini
-
+[colors]
+background = ${xrdb:background}
+background-alt = #000000E6
+foreground = ${xrdb:foreground}
+foreground-alt = ${xrdb:foreground}
+primary = ${xrdb:color2}
+secondary = ${xrdb:color7}
+alert = ${xrdb:color9}
+color0 = ${xrdb:color0}
+white = #ffffff 
+color2 = ${xrdb:color2}
+color3 = ${xrdb:color3}
+color4 = ${xrdb:color4}
+color5 = ${xrdb:color5}
+color6 = ${xrdb:color6}
+color7 = ${xrdb:color7}
+color8 = ${xrdb:color8}
+color9 = ${xrdb:color9}
+white0 = ${xrdb:white0}
+white1 = ${xrdb:white1}
+white2 = ${xrdb:white2}
+white3 = ${xrdb:white3}
+white4 = #ffffff
+white5 = #ff0022 
+color256 = #000000 
+color257 = ${xrdb:color257}
 
 ; Bar 1 ---------------------------------------------------------------
 [bar/main]
@@ -10,11 +34,9 @@ offset-x = 1%
 offset-y = 0%
 radius = 0
 fixed-center = true
-font-0 = Hack Nerd Font:style=Medium:size=9;3
-font-1 = Iosevka Nerd Font:style=Medium:size=12;4
-font-2 = JetBrainsMono Nerd Font:style=Medium:size=15;4
-font-3 = "Source Han Sans JP:Bold:size=8;2"
-font-4 = Iosevka Nerd Font:style=Medium:size=7;4
+font-0 = fixed:pixelsize=11.2;2
+font-1 = "Iosevka Nerd Font:style=Medium:size=13;3"
+font-2 = "Source Han Sans JP:Bold:size=12;2"
 background = ${colors.background-alt}
 foreground = ${colors.foreground}
 line-size = 3
@@ -26,42 +48,19 @@ padding-right = 2
 module-margin-left = 0
 module-margin-right = 0
 enable-ipc = true
-modules-left = flechaizq izq logotitulo usuario ram cpu temperature der arribacierra2 
-modules-center = arribaabre izq bspwm der arribacierra
-modules-right = arribaabre2 izq slash pulseaudio slash hora slash fecha der guion izq battery wifi der flechader
+modules-left = flechaizq izq logotitulo usuario der arribacierra2 
+modules-center = arribaabre izq calor frio pulseaudio ram cpu der arribacierra
+modules-right = arribaabre2 izq hora slash fecha der guion izq battery wifi der flechader
 wm-restack = bspwm
 cursor-click = pointer
 cursor-scroll = ns-resize
 
 ;--------------------------------------------------------------------------------
 
-[module/bspwm]
-type = internal/bspwm
-label-focused = %name%
-label-focused-foreground = ${colors.color1}
-label-focused-underline= ${colors.color1}
-label-focused-padding = 1
-label-occupied = %name%
-label-occupied-foreground = ${colors.color2}
-label-occupied-padding = 1
-label-urgent = %name%
-label-urgent-foreground = ${colors.color3}
-label-urgent-padding = 1
-label-empty = %name%
-label-empty-foreground = ${colors.color0}
-label-empty-padding = 1
-label-focused-background = ${colors.color256}
-label-focused-underline-background = ${colors.color256}
-label-occupied-background = ${colors.color256}
-label-urgent-background = ${colors.color256}
-label-empty-background = ${colors.color256}
-
-;--------------------------------------------------------------------------------
-
 [module/pulseaudio]
 type = internal/pulseaudio
-format-volume = " <label-volume>"
-format-muted = " <label-muted>"
+format-volume = "|  <label-volume>"
+format-muted = "|  <label-muted>"
 label-volume = %percentage%%
 label-muted = %percentage%%
 label-volume-foreground = ${colors.white}
@@ -99,9 +98,11 @@ ramp-capacity-4 = 
 ramp-capacity-foreground = ${colors.white}
 
 animation-charging-0 =   
+animation-charging-0-padding = 4 
 animation-charging-1 =   
+animation-charging-1-padding = 4 
 animation-charging-2 =    
-animation-charging-padding = 2 
+animation-charging-2-padding = 4 
 animation-charging-framerate = 600
 animation-charging-foreground = ${colors.white}
 animation-charging-background = ${colors.color256}
@@ -111,7 +112,6 @@ animation-discharging-1= 
 animation-discharging-2= 
 animation-discharging-3= 
 animation-discharging-4= 
-animation-discharging-padding = 2 
 animation-discharging-framerate = 500
 animation-discharging-foreground = ${colors.white}
 format-background = ${colors.color256}
@@ -124,7 +124,6 @@ format = "<ramp> <label> "
 format-warn = "<ramp> <label-warn> "
 label =%temperature%
 label-warn = %temperature%
-hwmon-path = /sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon3/temp1_input
 ramp-0 =|  
 ramp-1 =|  
 ramp-2 =|  
@@ -137,7 +136,7 @@ format-warn-background = ${colors.color256}
 [module/wifi]
 type = custom/script
 exec = bash ~/.local/bin/modulos/bar_wifi 2>/dev/null
-format = "   <label>"
+format = "  <label>"
 click-left = alacritty -e nmtui
 label = %output% 
 label-padding = 0
@@ -159,7 +158,7 @@ format-background = ${colors.color256}
 [module/ram]
 type = custom/script
 exec = bash ~/.local/bin/modulos/bar_ram 2>/dev/null
-format = "|  <label> "
+format = "|   <label> "
 click-left = st -e htop
 label = %output%
 label-padding = 0
@@ -167,6 +166,45 @@ tail = true
 interval = 10
 label-foreground = ${colors.white}
 format-foreground = ${colors.white}
+format-background = ${colors.color256}
+
+[module/lluvia]
+type = custom/script
+exec = bash ~/.local/bin/modulos/bar_lluvia 2>/dev/null
+format ="<label> "
+click-left = st -e sh -c 'clima ; $SHELL'
+label = %output%
+label-padding = 0
+tail = true
+interval = 7200
+label-foreground = ${colors.white4}
+format-foreground = ${colors.white4}
+format-background = ${colors.color256}
+
+[module/frio]
+type = custom/script
+exec = bash ~/.local/bin/modulos/bar_frio 2>/dev/null
+format ="<label> "
+click-left = st -e sh -c 'clima ; $SHELL'
+label = %output%
+label-padding = 0
+tail = true
+interval = 7200
+label-foreground = ${colors.white4}
+format-foreground = ${colors.white4}
+format-background = ${colors.color256}
+
+[module/calor]
+type = custom/script
+exec = bash ~/.local/bin/modulos/bar_calor 2>/dev/null
+format ="<label> "
+click-left = st -e sh -c 'clima ; $SHELL'
+label = %output%
+label-padding = 0
+tail = true
+interval = 7200
+label-foreground = ${colors.white4}
+format-foreground = ${colors.white4}
 format-background = ${colors.color256}
 
 [module/cpu]
@@ -184,7 +222,7 @@ format-background = ${colors.color256}
 [module/fecha]
 type = custom/script
 exec = bash ~/.local/bin/modulos/bar_fecha 2>/dev/null
-format =" <label>"
+format =" <label>"
 label = %output%
 label-padding = 0
 interval = 5
