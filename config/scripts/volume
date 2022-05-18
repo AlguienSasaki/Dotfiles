@@ -1,0 +1,1277 @@
+#!/bin/bash
+#
+#  i3-volume
+#
+#  Volume control and volume notifications.
+#
+#  Dependencies:
+#      awk (POSIX compatible)
+#      pulseaudio-utils - if using PulseAudio
+#      alsa-utils - if using amixer
+#
+#  Copyright (c) 2016 Beau Hastings. All rights reserved.
+#  License: GNU General Public License v2
+#
+#  Author: Beau Hastings <beau@saweet.net>
+#  URL: https://github.com/hastinbe/i3-volume
+#  Wiki: https://github.com/hastinbe/i3-volume/wiki/
+
+define_helpers() {
+    empty() {
+        [[ -z $1 ]]
+    }
+
+    not_empty() {
+        [[ -n $1 ]]
+    }
+
+    isset() {
+        [[ -v $1 ]]
+    }
+
+    command_exists() {
+        command -v "$1" >/dev/null 2>&1;
+    }
+
+    error() {
+        echo "$COLOR_RED$*$COLOR_RESET"
+    }
+
+    has_color() {
+        (( $(tput colors 2>/dev/null || echo 0) >= 8 )) && [ -t 1 ]
+    }
+
+    # Converts milliseconds to seconds with rounding up
+    #
+    # Arguments:
+    #   milliseconds    (integer) An integer in milliseconds
+    ms_to_secs() {
+        echo $(( ($1 + (1000 - 1)) / 1000 ))
+    }
+
+    is_command_hookable() {
+        ! [[ ${POST_HOOK_EXEMPT_COMMANDS[*]} =~ $1 ]]
+    }
+
+    has_capability() {
+        [[ "${NOTIFY_CAPS[*]}" =~ $1 ]]
+    }
+
+    max() {
+        echo $(( $1 > $2 ? $1 : $2 ))
+    }
+}
+
+define_notify() {
+    # Display a notification indicating muted or current volume.
+    notify_volume() {
+        local -r vol=$(get_volume)
+        local icon
+        local summary
+        local body
+
+        if is_muted; then
+            summary="Volume muted"
+
+            if $USE_FULLCOLOR_ICONS; then
+                icon=${ICONS[0]}
+            else
+                icon=${ICONS_SYMBOLIC[0]}
+            fi
+        else
+            printf -v summary "Volume %3s%%" "$vol"
+
+            icon=$(get_volume_icon "$vol")
+
+            if $SHOW_VOLUME_PROGRESS; then
+                local -r progress=$(progress_bar "$vol")
+
+                if has_capability body && [[ $PROGRESS_PLACEMENT == body ]]; then
+                    body="$progress"
+                else
+                    summary="$summary $progress"
+                fi
+            fi
+        fi
+
+        case "$NOTIFICATION_METHOD" in
+            xosd                       ) notify_volume_xosd "$vol" "$summary $body" ;;
+            herbe                      ) notify_volume_herbe "$summary $body" ;;
+            volnoti                    ) notify_volume_volnoti "$vol" ;;
+            kosd                       ) notify_volume_kosd "$vol" ;;
+            dunst                      ) notify_volume_libnotify "$vol" "$icon" "$summary" "$body" ;;
+            notify-osd                 ) notify_volume_libnotify "$vol" "$icon" "$summary" "$body" ;;
+            libnotify                  ) notify_volume_libnotify "$vol" "$icon" "$summary" "$body" ;;
+            haskell-notification-daemon) notify_volume_libnotify "$vol" "$icon" "$summary" "$body" ;;
+            *                          ) notify_volume_libnotify "$vol" "$icon" "$summary" "$body" ;;
+        esac
+    }
+
+    list_notification_methods() {
+        awk -W posix 'match($0,/    notify_volume_([[:alnum:]]+)/) {print substr($0, 19, RLENGTH-18)}' "${BASH_SOURCE[0]}" || exit "$EX_USAGE"
+        exit "$EX_OK"
+    }
+
+    setup_notification_icons() {
+        if not_empty "$SYMBOLIC_ICON_SUFFIX"; then
+            apply_symbolic_icon_suffix
+        fi
+    }
+
+    show_volume_notification() {
+        $DISPLAY_NOTIFICATIONS || return
+
+        if empty "$NOTIFICATION_METHOD"; then
+            load_notify_server_info
+            NOTIFICATION_METHOD=$NOTIFY_SERVER
+        fi
+
+        setup_notification_icons
+        notify_volume
+    }
+
+    # Loads notification system information via DBus
+    load_notify_server_info() {
+        command_exists dbus-send || return
+        IFS=$'\t' read -r NOTIFY_SERVER _ _ _ < <(dbus-send --print-reply --dest=org.freedesktop.Notifications /org/freedesktop/Notifications org.freedesktop.Notifications.GetServerInformation | awk 'BEGIN { ORS="\t" }; match($0, /^   string ".*"/) {print substr($0, RSTART+11, RLENGTH-12)}')
+    }
+
+    # Load notification system capabilities via DBus
+    load_notify_server_caps() {
+        command_exists dbus-send || return
+        IFS= read -r -d '' -a NOTIFY_CAPS < <(dbus-send --print-reply=literal --dest="${DBUS_NAME}" "${DBUS_PATH}" "${DBUS_IFAC_FDN}.GetCapabilities" | awk 'RS="      " { if (NR > 2) print $1 }')
+    }
+
+    # Send notifcation for libnotify-compatible notification daemons.
+    #
+    # Arguments:
+    #   Volume      (integer) An integer indicating the volume.
+    #   Icon        (string) Icon to display.
+    #   Summary     (string) Notification summary.
+    #   Body        (string) Notification body. (optional)
+    notify_volume_libnotify() {
+        local -r vol=$1
+        local -r icon=$2
+        local -r summary=$3
+        local -r body=${*:4}
+        local -a args=(
+            -t "$EXPIRES"
+        )
+        local -a hints=(
+            # Replaces previous notification in some notification servers
+            string:synchronous:volume
+            # Replaces previous notification in NotifyOSD
+            string:x-canonical-private-synchronous:volume
+        )
+
+        # If we're not drawing our own progress bar, allow the notification daemon to draw its own (if supported)
+        if ! $SHOW_VOLUME_PROGRESS; then
+            hints+=(int:value:"$vol")
+        fi
+
+        (( ${#NOTIFY_CAPS[@]} < 1 )) && load_notify_server_caps
+
+        if has_capability icon-static || has_capability icon-multi; then
+            # haskell-notification-daemon (aka deadd-notification-center) does not support -i|--icon
+            args+=(-i "$icon")
+        fi
+
+        # dunst doesn't announce icon-(static|multi) server capabilities, but supports image-path hint
+        hints+=(string:image-path:"$icon")
+
+        if $PLAY_SOUND && has_capability sound; then
+            hints+=(string:sound-name:audio-volume-change)
+        fi
+
+        if ! isset NO_NOTIFY_COLOR && [[ $NOTIFICATION_METHOD == "dunst" ]]; then
+            if is_muted; then
+                hints+=(string:fgcolor:"$COLOR_MUTED")
+            else
+                hints+=(string:fgcolor:"$(volume_color "$vol")")
+            fi
+        fi
+
+        if $USE_DUNSTIFY; then
+            args+=(-r 1000)
+
+            # Transient notifications will bypass the idle_threshold setting.
+            # Should be boolean, but Notify-OSD doesn't support boolean yet. Dunst checks
+            # for int and bool with transient so lets play nice with both servers.
+            hints+=(int:transient:1)
+
+            read -ra hints <<< "${hints[@]/#/-h }"
+            "${DUNSTIFY_PATH:+${DUNSTIFY_PATH%/}/}dunstify" "${hints[@]}" "${args[@]}" "$summary" "$body"
+        elif isset USE_NOTIFY_SEND_PY; then
+            # Replaces previous notification, but leaves itself running in the bg to work
+            args+=(--replaces-process volume)
+
+            # By-pass the server's persistence capability, if it should exist
+            hints+=(boolean:transient:true)
+
+            "${NOTIFY_SEND_PATH:+${NOTIFY_SEND_PATH%/}/}notify-send.py" --hint "${hints[@]}" "${args[@]}" "$summary" "$body" &
+        else
+            read -ra hints <<< "${hints[@]/#/-h }"
+            "${NOTIFY_SEND_PATH:+${NOTIFY_SEND_PATH%/}/}notify-send" "${hints[@]}" "${args[@]}" "$summary" "$body"
+        fi
+    }
+
+    # Send notification to XOSD.
+    #
+    # Arguments:
+    #   Volume      (integer) An integer indicating the volume.
+    #   Text        (string) Notification text.
+    notify_volume_xosd() {
+        local -r vol=$1
+        local -r text=${*:2}
+        local -r delay=$(ms_to_secs "$EXPIRES")
+        local percentage
+
+        if is_muted; then
+            color=$COLOR_MUTED
+            percentage=0
+        else
+            color=$(volume_color "$vol")
+            percentage=$vol
+        fi
+
+        "${XOSD_PATH:+${XOSD_PATH%/}/}osd_cat" --align center -b percentage -P "$percentage" -d "$delay" -p top -A center -c "$color" -T "$text" -O 2 -u "$COLOR_XOSD_OUTLINE" & disown
+    }
+
+    # Send notification to herbe.
+    #
+    # Arguments:
+    #   Text    (string) Notification text.
+    #
+    # Note: a patch with a notify-send script for herbe, not in the current version at this
+    #       time but would make this irrelevant. See https://github.com/dudik/herbe/pull/10
+    notify_volume_herbe() {
+        local -r text=$*
+
+        # Dismiss existing/pending notifications to prevent queuing
+        pkill -SIGUSR1 herbe
+
+        "${HERBE_PATH:+${HERBE_PATH%/}/}herbe" "$text" & disown
+    }
+
+    # Send notification to volnoti.
+    #
+    # Arguments:
+    #   Volume      (integer) An integer indicating the volume.
+    notify_volume_volnoti() {
+        local -r vol=$1
+
+        if is_muted; then
+            "${VOLNOTI_PATH:+${VOLNOTI_PATH%/}/}volnoti-show" -m "$vol"
+        else
+            "${VOLNOTI_PATH:+${VOLNOTI_PATH%/}/}volnoti-show" "$vol"
+        fi
+    }
+
+    # Send notification to KOSD.
+    #
+    # Arguments:
+    #   Volume      (integer) An integer indicating the volume.
+    notify_volume_kosd() {
+        local -r vol=$1
+
+        if is_muted; then
+            qdbus org.kde.kded /modules/kosd showVolume "$vol" 1
+        else
+            qdbus org.kde.kded /modules/kosd showVolume "$vol" 0
+        fi
+    }
+}
+
+define_output_formats() {
+    # Outputs the current volume in the default format.
+    output_volume_default() {
+        if is_muted; then
+            echo MUTE
+        else
+            echo "$(get_volume)%"
+        fi
+    }
+
+    # Outputs the current volume using a custom format string.
+    #
+    # Format options:
+    #   %v = volume percentage or "MUTE" when muted
+    #   %s = sink name (PulseAudio only)
+    #   %c = card (alsamixer only)
+    #   %m = mixer (alsamixer only)
+    #   %p = volume progress bar
+    #   %i = volume icon
+    output_volume_custom() {
+        local -r format=$*
+        local -r vol=$(get_volume)
+        local string
+
+        if is_muted; then
+            string=${format//\%v/MUTE}
+        else
+            string=${format//\%v/$vol%}
+        fi
+
+        string=${string//\%s/$SINK}
+        string=${string//\%c/$CARD}
+        string=${string//\%m/$MIXER}
+        string=${string//\%p/$(progress_bar "$vol")}
+        string=${string//\%i/$(get_volume_emoji "$vol")}
+
+        echo -ne "$string"
+    }
+
+    # Outputs the current volume for i3blocks.
+    output_volume_i3blocks() {
+        local short_text
+        local full_text
+
+        if is_muted; then
+            short_text="<span color=\"$COLOR_MUTED\">MUTE</span>\n"
+            full_text="<span color=\"$COLOR_MUTED\">MUTE</span>\n"
+        else
+            local -r vol=$(get_volume)
+            local -r color=$(volume_color "$vol")
+
+            short_text="<span color=\"$color\">${vol}%</span>\n"
+            full_text="<span color=\"$color\">${vol}%</span>\n"
+
+            if isset MAX_VOLUME && (( vol > MAX_VOLUME )); then
+                EXITCODE=$EX_URGENT
+            fi
+        fi
+
+        echo -ne "$full_text$short_text"
+    }
+
+    # Outputs the current volume for xob.
+    output_volume_xob() {
+        local -ir vol=$(get_volume)
+
+        if is_muted; then
+            echo "${vol}!"
+        else
+            echo "$vol"
+        fi
+    }
+}
+
+define_commands() {
+    # Increase volume relative to current volume.
+    #
+    # Arguments:
+    #   Step        (integer) Percentage to increase by.
+    #   Max Volume  (optional) (integer|percentage) Maximum volume limit.
+    increase_volume() {
+        local step=${1:?$(error 'Step is required')}
+        local -r max_volume=$2
+
+        if not_empty "$max_volume"; then
+            local -r vol=$(get_volume)
+
+            if (( vol + step > max_volume )); then
+                # Instead of doing nothing, step to max_volume
+                step=$( max "0" "$(( max_volume - vol ))" )
+            fi
+        fi
+
+        if $USE_AMIXER; then
+            amixer_increase_volume "$CARD" "$step"
+        else
+            pa_increase_volume "$SINK" "$step"
+        fi
+    }
+
+    # Decrease volume relative to current volume.
+    #
+    # Arguments:
+    #   Step        (integer) Percentage to decrease by.
+    decrease_volume() {
+        local -r step=${1:?$(error 'Step is required')}
+
+        if $USE_AMIXER; then
+            amixer_decrease_volume "$CARD" "$step"
+        else
+            pa_decrease_volume "$SINK" "$step"
+        fi
+    }
+
+    # Set volume.
+    #
+    # Arguments:
+    #   Volume      (integer|linear factor|percentage|decibel)
+    #   Max Volume  (optional) (integer|percentage) Maximum volume limit.
+    set_volume() {
+        local -r vol=${1:?$(error 'Volume is required')}
+        local -r max_volume=$2
+
+        if not_empty "$max_volume" && (( vol > max_volume )); then
+            return
+        fi
+
+        if $USE_AMIXER; then
+            amixer_set_volume "${vol}%" "$CARD"
+        else
+            pa_set_volume "$SINK" "${vol}%"
+        fi
+    }
+
+    toggle_mute() {
+        if $USE_AMIXER; then
+            amixer_toggle_mute "$CARD"
+        else
+            pa_toggle_mute "$SINK"
+        fi
+    }
+
+    # Outputs the current volume.
+    #
+    # Arguments
+    #   Output method   (string) Method to use to output volume.
+    output_volume() {
+        local -r for=${1:?$(error 'Output method is required')}
+
+        case "$for" in
+            i3blocks    ) output_volume_i3blocks ;;
+            xob         ) output_volume_xob ;;
+            default     ) output_volume_default ;;
+            *           ) output_volume_custom "$*" ;;
+        esac
+    }
+
+    list_output_formats() {
+        awk -W posix 'match($0,/    output_volume_([[:alnum:]]+)/) {print substr($0, 19, RLENGTH-18)}' "${BASH_SOURCE[0]}" || exit "$EX_USAGE"
+        exit "$EX_OK"
+    }
+
+    usage() {
+        cat <<- EOF 1>&2
+${COLOR_YELLOW}Usage:${COLOR_RESET} $0 [<options>] <command> [<args>]
+Control volume and related notifications.
+${COLOR_YELLOW}Commands:${COLOR_RESET}
+  ${COLOR_GREEN}up <value>${COLOR_RESET}                  increase volume
+  ${COLOR_GREEN}down <value>${COLOR_RESET}                decrease volume
+  ${COLOR_GREEN}set <value>${COLOR_RESET}                 set volume
+  ${COLOR_GREEN}mute${COLOR_RESET}                        toggle mute
+  ${COLOR_GREEN}listen${COLOR_RESET}                      listen for changes to a PulseAudio sink
+  ${COLOR_GREEN}output <format>${COLOR_RESET}             output volume in a supported format
+                              custom format substitutions:
+                                  %v = volume
+                                  %s = sink name (PulseAudio only)
+                                  %c = card (alsamixer only)
+                                  %m = mixer (alsamixer only)
+                                  %p = volume progress bar
+                                  %i = volume icon/emoji
+                                  examples:
+                                      "Volume is %v" = Volume is 50%
+                                      "%i %v %p \n"  = 奔 50% ██████████
+  ${COLOR_GREEN}outputs${COLOR_RESET}                     show available output formats
+  ${COLOR_GREEN}notifications${COLOR_RESET}               show available notification methods
+  ${COLOR_GREEN}help${COLOR_RESET}                        display help
+${COLOR_YELLOW}Options:${COLOR_RESET}
+  ${COLOR_GREEN}-a${COLOR_RESET}                          use amixer
+  ${COLOR_GREEN}-n${COLOR_RESET}                          enable notifications
+  ${COLOR_GREEN}-C${COLOR_RESET}                          use libcanberra for playing event sounds
+  ${COLOR_GREEN}-P${COLOR_RESET}                          play sound for volume changes
+  ${COLOR_GREEN}-j <muted,high,low,medium>${COLOR_RESET}  specify custom volume emojis as a comma separated list
+  ${COLOR_GREEN}-t <process_name>${COLOR_RESET}           process name of status bar (${COLOR_MAGENTA}requires -u${COLOR_RESET})
+  ${COLOR_GREEN}-u <signal>${COLOR_RESET}                 signal to update status bar (${COLOR_MAGENTA}requires -t${COLOR_RESET})
+  ${COLOR_GREEN}-x <value>${COLOR_RESET}                  maximum volume
+  ${COLOR_GREEN}-X <value>${COLOR_RESET}                  maximum amplification; if supported (${COLOR_MAGENTA}default: 2${COLOR_RESET})
+  ${COLOR_GREEN}-h${COLOR_RESET}                          display help
+${COLOR_YELLOW}amixer Options:${COLOR_RESET}
+  ${COLOR_GREEN}-c <card>${COLOR_RESET}                   card number to control
+  ${COLOR_GREEN}-m <mixer>${COLOR_RESET}                  set mixer (${COLOR_MAGENTA}default: Master${COLOR_RESET})
+${COLOR_YELLOW}PulseAudio Options:${COLOR_RESET}
+  ${COLOR_GREEN}-s <sink>${COLOR_RESET}                   symbolic name of sink
+${COLOR_YELLOW}Notification Options:${COLOR_RESET}
+  ${COLOR_GREEN}-N <method>${COLOR_RESET}                 notification method (${COLOR_MAGENTA}default: libnotify${COLOR_RESET})
+  ${COLOR_GREEN}-p${COLOR_RESET}                          enable progress bar
+  ${COLOR_GREEN}-L <placement>${COLOR_RESET}              progress bar placement (${COLOR_MAGENTA}default: summary${COLOR_RESET}; ${COLOR_MAGENTA}requires -p${COLOR_RESET})
+                              placements:
+                                  body
+                                  summary
+  ${COLOR_GREEN}-e <expires>${COLOR_RESET}                expiration time of notifications in ms
+  ${COLOR_GREEN}-l${COLOR_RESET}                          use fullcolor instead of symbolic icons
+  ${COLOR_GREEN}-S <suffix>${COLOR_RESET}                 append suffix to symbolic icon names
+  ${COLOR_GREEN}-y${COLOR_RESET}                          use dunstify (${COLOR_MAGENTA}default: notify-send${COLOR_RESET})
+${COLOR_YELLOW}Environment Variables:${COLOR_RESET}
+  ${COLOR_CYAN}XOSD_PATH${COLOR_RESET}                   path to osd_cat
+  ${COLOR_CYAN}HERBE_PATH${COLOR_RESET}                  path to herbe
+  ${COLOR_CYAN}VOLNOTI_PATH${COLOR_RESET}                path to volnoti-show
+  ${COLOR_CYAN}DUNSTIFY_PATH${COLOR_RESET}               path to dunstify
+  ${COLOR_CYAN}CANBERRA_PATH${COLOR_RESET}               path to canberra-gtk-play
+  ${COLOR_CYAN}NOTIFY_SEND_PATH${COLOR_RESET}            path to notify-send or notify-send.py
+  ${COLOR_CYAN}USE_NOTIFY_SEND_PY${COLOR_RESET}          flag to use notify-send.py instead of notify-send
+  ${COLOR_CYAN}NO_NOTIFY_COLOR${COLOR_RESET}             flag to disable colors in notifications
+EOF
+        exit "$EX_USAGE"
+    }
+}
+
+# Get the volume as a percentage.
+get_volume() {
+    if $USE_AMIXER; then
+        amixer_get_volume "$CARD" "$MIXER"
+    else
+        pa_get_volume "$SINK"
+    fi
+}
+
+is_muted() {
+    if $USE_AMIXER; then
+        amixer_is_muted "$CARD"
+        return $?
+    else
+        pa_is_muted "$SINK"
+        return $?
+    fi
+}
+
+# Gets an icon for the provided volume.
+#
+# Arguments:
+#   Volume      (integer) An integer indicating the volume.
+#
+# Returns:
+#   The volume icon name.
+get_volume_icon() {
+    local -r vol=${1:?$(error 'Volume is required')}
+    local icon
+
+    if $USE_FULLCOLOR_ICONS; then
+        if (( vol >= 70 )); then icon=${ICONS[1]}
+        elif (( vol >= 40 )); then icon=${ICONS[3]}
+        elif (( vol > 0 )); then icon=${ICONS[2]}
+        else icon=${ICONS[2]}
+        fi
+    else
+        # Get overamplified icon if available, otherwise default to high volume icon
+        if (( vol > 100 )); then icon=${ICONS_SYMBOLIC[4]:-${ICONS_SYMBOLIC[1]}}
+        elif (( vol >= 70 )); then icon=${ICONS_SYMBOLIC[1]}
+        elif (( vol >= 40 )); then icon=${ICONS_SYMBOLIC[3]}
+        elif (( vol > 0 )); then icon=${ICONS_SYMBOLIC[2]}
+        else icon=${ICONS_SYMBOLIC[2]}
+        fi
+    fi
+
+    echo "$icon"
+}
+
+# Gets an emoji for the provided volume.
+#
+# Arguments:
+#   Volume      (integer) An integer indicating the volume.
+#
+# Returns:
+#   The volume emoji.
+get_volume_emoji() {
+    local -r vol=${1:?$(error 'Volume is required')}
+    local icon
+
+    if is_muted; then
+        icon=${ICONS_EMOJI[0]}
+    else
+        if (( vol >= 70 )); then icon=${ICONS_EMOJI[1]}
+        elif (( vol >= 40 )); then icon=${ICONS_EMOJI[3]}
+        elif (( vol > 0 )); then icon=${ICONS_EMOJI[2]}
+        else icon=${ICONS_EMOJI[2]}
+        fi
+    fi
+
+    echo "$icon"
+}
+
+# Updates the status line.
+#
+# Arguments:
+#   signal  (string) The signal used to update the status line.
+#   proc    (string) The name of the status line process.
+update_statusline() {
+    local -r signal=${1:?$(error 'Signal is required')}
+    local -r proc=${2:?$(error 'Process name is required')}
+
+    pkill "-$signal" "$proc"
+}
+
+# Generates a progress bar for the provided value.
+#
+# Arguments:
+#   Percentage      (integer) Percentage of progress.
+#   Maximum         (integer) Maximum percentage. (default: 100)
+#   Divisor         (integer) For calculating the ratio of blocks to progress (default: 5)
+#
+# Returns:
+#   The progress bar.
+progress_bar() {
+    local -r percent=${1:?$(error 'Percentage is required')}
+    local -r max_percent=${2:-100}
+    local -r divisor=${3:-5}
+    local -r progress=$(( (percent > max_percent ? max_percent : percent) / divisor ))
+
+    printf -v bar "%*s" $progress ""
+    echo "${bar// /█}"
+}
+
+apply_symbolic_icon_suffix() {
+    for i in "${!ICONS_SYMBOLIC[@]}"; do
+        ICONS_SYMBOLIC[$i]="${ICONS_SYMBOLIC[$i]}${SYMBOLIC_ICON_SUFFIX}"
+    done
+}
+
+# Get color for the given volume
+#
+# Arguments:
+#   $1 - The volume
+volume_color() {
+    local -ir vol=${1:?$(error 'A volume is required')}
+
+    if $USE_AMIXER; then
+        amixer_volume_color "$vol"
+    else
+        pa_volume_color "$vol"
+    fi
+}
+
+# Updates the status bars
+#
+# Returns
+#   0 when no problem occurred
+#   1 when one $of signal or $statusline are set but not both
+update_statusbar() {
+    if not_empty "$SIGNAL"; then
+        if empty "$STATUSLINE"; then
+            return 1
+        fi
+        update_statusline "$SIGNAL" "$STATUSLINE"
+    else
+        if not_empty "$STATUSLINE"; then
+            return 1
+        fi
+    fi
+
+    return 0
+}
+
+setup_audio() {
+    if $USE_AMIXER; then
+        setup_amixer
+    else
+        setup_pulseaudio
+    fi
+}
+
+# All PulseAudio functions are defined here
+define_pulseaudio_functions() {
+    # Executes `pactl list sinks` or return its output if called previously
+    pa_list_sinks() {
+        if $OPT_LISTEN || empty "$PA_LIST_SINKS"; then
+            PA_LIST_SINKS=$(pactl list sinks)
+        fi
+        echo "$PA_LIST_SINKS"
+    }
+
+    pa_invalidate_cache() {
+        unset PA_LIST_SINKS
+    }
+
+    # Get the index of a sink name.
+    #
+    # Arguments
+    #   Sink name   (string) Symbolic name of sink.
+    pa_get_sink_index() {
+        local -r sink=${1:?$(error 'Sink name is required')}
+
+        pa_list_sinks | \
+            awk -W posix '/^Sink #/{gsub("#", ""); idx = $2}
+                          /^[ \t]+Name: / {insink = $2 == "'"$sink"'"; if (insink) { print idx }; exit}'
+    }
+
+    # Get the volume as a percentage.
+    #
+    # Arguments
+    #   Sink name   (string) Symbolic name of sink.
+    pa_get_volume() {
+        local -r sink=${1:?$(error 'Sink name is required')}
+
+        pactl get-sink-volume $sink | \
+            awk -W posix '/^Volume: / {gsub("%,?", ""); print $5; exit}'
+    }
+
+    # Get the max volume as a percentage.
+    #
+    # Arguments
+    #   Sink name   (string) Symbolic name of sink.
+    pa_get_base_volume() {
+        local -r sink=${1:?$(error 'Sink name is required')}
+
+        pa_list_sinks | \
+            awk -W posix '/^[ \t]+Name: / {insink = $2 == "'"$sink"'"}
+                          /^[ \t]+Base Volume: / && insink {gsub("%", ""); print $5; exit}'
+    }
+
+    # Increase volume relative to current volume using pulseaudio.
+    #
+    # Arguments:
+    #   Sink name   (string)  Symbolic name of sink.
+    #   Step        (integer) Percentage to increase by.
+    pa_increase_volume() {
+        local -r sink=$1
+        local -r step=${2:=-5}
+
+        pa_set_volume "$sink" "+${step}%"
+    }
+
+    # Decrease volume relative to current volume using pulseaudio.
+    #
+    # Arguments:
+    #   Sink name   (string)  Symbolic name of sink.
+    #   Step        (integer|percentage) Percentage to decrease by.
+    pa_decrease_volume() {
+        local -r sink=$1
+        local -r step=${2:=-5}
+
+        pa_set_volume "$sink" "-${step}%"
+    }
+
+    # Set volume using pulseaudio.
+    #
+    # Arguments:
+    #   Sink name   (string) Symbolic name of sink.
+    #   Volume      (integer|linear factor|percentage|decibel)
+    pa_set_volume() {
+        local -r sink=${1:?$(error 'Sink name is required')}
+        local -r vol=${2:?$(error 'Volume is required')}
+
+        pa_invalidate_cache
+
+        pactl set-sink-volume "$sink" "$vol"
+    }
+
+    # Toggle mute using pulseaudio.
+    #
+    # Arguments:
+    #   Sink name   (string) Symbolic name of sink.
+    pa_toggle_mute() {
+        local -r sink=${1:?$(error 'Sink name is required')}
+
+        pa_invalidate_cache
+
+        pactl set-sink-mute "$sink" toggle
+    }
+
+    # Check if sink is muted.
+    #
+    # Arguments:
+    #   Sink name    (string) Symbolic name of sink.
+    #
+    # Returns:
+    #   0 when true, 1 when false.
+    pa_is_muted() {
+        local -r sink=${1:?$(error 'Sink name is required')}
+
+        pa_list_sinks | \
+            awk -W posix '/^[ \t]+Name: / {insink = $2 == "'"$sink"'"}
+                          /^[ \t]+Mute: / && insink && $2 ~ /^yes$/ { exitcode=1 }; END { exit !exitcode }'
+    }
+
+    # Get the flags of the PulseAudio sink.
+    #
+    # Arguments
+    #   Sink name   (string) Symbolic name of sink.
+    pa_get_sink_flags() {
+        local -r sink=${1:?$(error 'Sink name is required')}
+
+        pa_list_sinks | \
+            awk -W posix '/^[ \t]+Name: / {insink = $2 == "'"$sink"'"}
+                          /^[ \t]+Flags: / && insink { for(i = 2; i <= NF; ++i) printf $i FS; exit}'
+    }
+
+    # Get color for the given volume for PulseAudio
+    #
+    # Arguments:
+    #   $1 - The volume
+    pa_volume_color() {
+        local -ir vol=${1:?$(error 'A volume is required')}
+
+        if (( vol >= PA_VOLUME_MUTED && vol < PA_BASE_VOLUME )); then
+            echo "$COLOR_MUTED_TO_BASE"
+        elif (( vol >= PA_BASE_VOLUME && vol <= PA_VOLUME_NORM )); then
+            echo "$COLOR_BASE_TO_NORM"
+        elif (( vol > PA_VOLUME_NORM && vol <= MAX_VOLUME )); then
+            echo "$COLOR_NORM_TO_MAX"
+        else
+            echo "$COLOR_OTHER"
+        fi
+    }
+
+    # Listens for PulseAudio events
+    #
+    # Arguments:
+    #   Output    (optional) (string) An output mode. When set, outputs volume in the output mode format.
+    listen() {
+        local -r output=$*
+        local -r index=$(pa_get_sink_index "$SINK")
+
+        # Output volume so statusbars have something to display before any event occurs
+        not_empty "$output" && output_volume "$output"
+
+        while IFS= read -r; do
+            show_volume_notification
+            update_statusbar
+            play_volume_changed
+            not_empty "$output" && output_volume "$output"
+        done < <(pactl subscribe | stdbuf -oL grep -e "Event 'change' on sink #$index")
+    }
+
+    # Play a sound file.
+    #
+    # Arguments:
+    #   Sound file  (string)
+    pa_play() {
+        local -r file=$1
+
+        paplay -d "$SINK" "$file" &
+    }
+}
+
+# Register PulseAudio related functions and settings
+setup_pulseaudio() {
+    define_pulseaudio_functions
+
+    PA_LIST_SINKS=$(pactl list sinks) || exit 1
+
+    if empty "$SINK"; then
+        SINK="$(pactl get-default-sink)"
+    fi
+
+    # Determine a max volume when it's not specified
+    if ! isset MAX_VOLUME; then
+        read -ra SINK_FLAGS < <(pa_get_sink_flags "$SINK")
+        PA_BASE_VOLUME=$(pa_get_base_volume "$SINK")
+
+        # Does the sink support digital (software) amplification?
+        if [[ "${SINK_FLAGS[*]}" =~ "DECIBEL_VOLUME" ]]; then
+            MAX_VOLUME=$((PA_VOLUME_NORM * MAX_AMPLIFICATION))
+        else
+            MAX_VOLUME=$PA_VOLUME_NORM
+        fi
+    fi
+}
+
+# All amixer functions are defined here
+define_amixer_functions() {
+        # Get the volume as a percentage.
+    #
+    # Arguments
+    #   Card        (integer) Card number to control.
+    #   Mixer       (string) Name of the mixer.
+    amixer_get_volume() {
+        local -r card=$1
+        local -r mixer=${2:-Master}
+
+        amixer ${card:+-c "$card" --} sget "$mixer" | \
+            awk -W posix -F'[][]' '/dB/ { gsub("%", ""); print $2 }'
+    }
+
+    # Increase volume relative to current volume using amixer.
+    #
+    # Arguments:
+    #   Card        (integer) Card number to control.
+    #   Step        (integer) Percentage to increase by.
+    amixer_increase_volume() {
+        local -r card=$1
+        local -r step=${2:=-5}
+
+        amixer_set_volume "${step}%+" "$card"
+    }
+
+    # Decrease volume relative to current volume using amixer.
+    #
+    # Arguments:
+    #   Card        (integer) Card number to control.
+    #   Step        (integer) Percentage to decrease by.
+    amixer_decrease_volume() {
+        local -r card=$1
+        local -r step=${2:=-5}
+
+        amixer_set_volume "${step}%-" "$card"
+    }
+
+    # Set volume using amixer.
+    #
+    # Arguments:
+    #   Volume      (integer|linear factor|percentage|decibel)
+    #   Card        (optional) (integer) Card number to control.
+    amixer_set_volume() {
+        local -r vol=${1:?$(error 'Volume is required')}
+        local -r card=$2
+
+        amixer -q ${card:+-c "$card" --} set "$MIXER" "$vol"
+    }
+
+    # Toggle mute using amixer.
+    #
+    # Arguments:
+    #   Card        (integer) Card number to control.
+    amixer_toggle_mute() {
+        local -r card=$1
+
+        amixer -q ${card:+-c "$card" --} set "$MIXER" toggle
+    }
+
+    # Check if card is muted.
+    #
+    # Arguments:
+    #   Card        (optional) (integer) Card number to control.
+    #
+    # Returns:
+    #   0 when true, 1 when false.
+    amixer_is_muted() {
+        local -r card=$1
+
+        amixer ${card:+-c "$card" --} sget "$MIXER" | \
+            awk -W posix -F'[][]' '/dB/ && $6 ~ /^off$/ { exitcode=1 }; END { exit !exitcode }'
+    }
+
+    # Get color for the given volume for amixer
+    #
+    # Arguments:
+    #   $1 - The volume
+    amixer_volume_color() {
+        local -ir vol=${1:?$(error 'A volume is required')}
+
+        if (( vol >= 0 && vol < 100 )); then
+            echo "$COLOR_MUTED_TO_BASE"
+        elif (( vol == 100 )); then
+            echo "$COLOR_BASE_TO_NORM"
+        elif (( vol > 100 && vol <= MAX_VOLUME )); then
+            echo "$COLOR_NORM_TO_MAX"
+        else
+            echo "$COLOR_OTHER"
+        fi
+    }
+
+    # Play a sound file.
+    #
+    # Arguments:
+    #   Sound file  (string)
+    amixer_play() {
+        local -r file=$1
+
+        aplay -q "$file" &
+    }
+}
+
+# Register amixer related functions and settings
+setup_amixer() {
+    define_amixer_functions
+}
+
+setup_color() {
+    if has_color; then
+        COLOR_RESET=$'\033[0m'
+        COLOR_RED=$'\033[0;31m'
+        COLOR_GREEN=$'\033[0;32m'
+        COLOR_YELLOW=$'\033[0;33m'
+        COLOR_MAGENTA=$'\033[0;35m'
+        COLOR_CYAN=$'\033[0;36m'
+    fi
+}
+
+# Rearrange all options to place flags first
+# Author: greycat
+# URL: https://mywiki.wooledge.org/ComplexOptionParsing
+arrange_opts() {
+    local flags args optstr=$1
+    shift
+
+    while (($#)); do
+        case $1 in
+            --)
+                args+=("$@")
+                break;
+                ;;
+            -*)
+                flags+=("$1")
+                if [[ $optstr == *"${1: -1}:"* ]]; then
+                    flags+=("$2")
+                    shift
+                fi
+                ;;
+            *)
+                args+=("$1")
+                ;;
+        esac
+        shift
+    done
+    OPTARR=("${flags[@]}" "${args[@]}")
+}
+
+parse_opts() {
+    local optstring=:ac:Ce:hj:lL:m:nN:pPs:S:t:u:x:X:y
+
+    arrange_opts "$optstring" "$@"
+    set -- "${OPTARR[@]}"
+
+    OPTIND=1
+
+    while getopts "$optstring" opt; do
+        case "$opt" in
+            a    ) USE_AMIXER=true ;;
+            c    ) CARD=$OPTARG ;;
+            C    ) USE_CANBERRA=true ;;
+            e    ) EXPIRES=$OPTARG ;;
+            j    ) IFS=, read -ra ICONS_EMOJI <<< "$OPTARG" ;;
+            l    ) USE_FULLCOLOR_ICONS=true ;;
+            L    ) PROGRESS_PLACEMENT=$OPTARG ;;
+            m    ) MIXER=${OPTARG@Q} ;;
+            n    ) DISPLAY_NOTIFICATIONS=true ;;
+            N    ) NOTIFICATION_METHOD=$OPTARG ;;
+            p    ) SHOW_VOLUME_PROGRESS=true ;;
+            P    ) PLAY_SOUND=true ;;
+            s    ) SINK=$OPTARG ;;
+            S    ) SYMBOLIC_ICON_SUFFIX=$OPTARG ;;
+            t    ) STATUSLINE=$OPTARG ;;
+            u    ) SIGNAL=$OPTARG ;;
+            x    ) MAX_VOLUME=$OPTARG ;;
+            X    ) MAX_AMPLIFICATION=$OPTARG ;;
+            y    ) USE_DUNSTIFY=true ;;
+            h | *) usage ;;
+        esac
+    done
+
+    read -ra CMDARGS <<< "${OPTARR[@]:$((OPTIND-1))}"
+}
+
+exec_command() {
+    IFS=' ' read -ra ARGS <<< "$1"
+    set -- "${ARGS[@]}"
+
+    COMMAND=${1:?$(error 'A command is required')}
+    shift
+
+    case "$COMMAND" in
+        up|raise|increase)
+            case "$#" in 1) ;; *) usage ;; esac
+            increase_volume "$1" "$MAX_VOLUME"
+            ;;
+        down|lower|decrease)
+            case "$#" in 1) ;; *) usage ;; esac
+            decrease_volume "$1"
+            ;;
+        set)
+            case "$#" in 1) ;; *) usage ;; esac
+            case "$1" in
+                +*) increase_volume "${1:1}" "$MAX_VOLUME" ;;
+                -*) decrease_volume "${1:1}" ;;
+                *) set_volume "$1" "$MAX_VOLUME" ;;
+            esac
+            ;;
+        mute)
+            toggle_mute
+            ;;
+        listen)
+            listen "$*"
+            ;;
+        output)
+            case "$#" in 0) usage ;; esac
+            output_volume "$*"
+            exit "${EXITCODE:-$EX_OK}"
+            ;;
+        outputs)
+            list_output_formats
+            ;;
+        notifications)
+            list_notification_methods
+            ;;
+        *)
+            usage
+            ;;
+    esac
+}
+
+play_volume_changed() {
+    $PLAY_SOUND || return
+
+    # Sound can be handled by the notification method
+    if $DISPLAY_NOTIFICATIONS && has_capability sound; then
+        return
+    fi
+
+    if $USE_CANBERRA; then
+        ca_play "$SOUND_VOLUME_CHANGED" "Volume Changed"
+    else
+        if $USE_AMIXER; then
+            amixer_play "$SOUND_VOLUME_CHANGED"
+        else
+            pa_play "$SOUND_VOLUME_CHANGED"
+        fi
+    fi
+}
+
+ca_play() {
+    local -r file=$1 desc=$2
+
+    if [[ -f $file ]]; then
+        "${CANBERRA_PATH:+${CANBERRA_PATH%/}/}canberra-gtk-play" -f "$file" -d "$desc"
+    else
+        "${CANBERRA_PATH:+${CANBERRA_PATH%/}/}canberra-gtk-play" -i "audio-volume-change" -d "$desc"
+    fi
+}
+
+post_command_hook() {
+    if is_command_hookable "$COMMAND"; then
+        show_volume_notification
+        play_volume_changed
+        update_statusbar || usage
+    fi
+}
+
+main() {
+    # Getopt parsing variables
+    declare OPTIND
+    declare -a OPTARR CMDARGS
+
+    ###########################################################
+    # Non-command line option variables
+    ###########################################################
+
+    # Commands which will not use post_command_hook(), usually because
+    # they handle notifications and/or statusbar updates manually
+    declare -a POST_HOOK_EXEMPT_COMMANDS=(
+        listen
+    )
+
+    # Exit codes
+    declare -ir \
+        EX_OK=0 \
+        EX_URGENT=33 \
+        EX_USAGE=64
+
+    # Main program exit code
+    declare -i EXITCODE=$EX_OK
+
+    # Standard notification icons. Usually full color
+    #   Note: order matters; muted, high, low, medium, and optionally overamplified
+    declare -a ICONS=(
+        audio-volume-muted
+        audio-volume-high
+        audio-volume-low
+        audio-volume-medium
+    )
+
+    # Symbolic notification icons. Usually low color or monochrome
+    #   Note: order matters; muted, high, low, medium, and optionally overamplified
+    declare -a ICONS_SYMBOLIC=(
+        audio-volume-muted-symbolic
+        audio-volume-high-symbolic
+        audio-volume-low-symbolic
+        audio-volume-medium-symbolic
+        ## Only exists in some icon sets
+        # audio-volume-overamplified-symbolic
+    )
+
+    # Emoji-based icons.
+    declare -a ICONS_EMOJI=(
+        ﱝ
+        墳
+        奄
+        奔
+    )
+
+    # Volume changed sound.
+    declare SOUND_VOLUME_CHANGED=${SOUND_VOLUME_CHANGED:-/usr/share/sounds/freedesktop/stereo/audio-volume-change.oga}
+
+    # DBUS constants
+    declare -r \
+        DBUS_NAME=org.freedesktop.Notifications \
+        DBUS_PATH=/org/freedesktop/Notifications \
+        DBUS_IFAC_FDN=org.freedesktop.Notifications
+
+    # Notification server information
+    declare \
+        NOTIFY_SERVER
+        # NOTIFY_VENDOR \
+        # NOTIFY_VERSION \
+        # NOTIFY_SPEC_VERSION
+
+    # Notification capabilities
+    declare -a NOTIFY_CAPS=()
+
+    # PulseAudio sink flags
+    declare -a SINK_FLAGS=()
+
+    # PulseAudio volume variables and constants.
+    #   Note: unlike in PA, PA_VOLUME_* here are percentages instead of integers
+    declare -i PA_BASE_VOLUME=100
+    declare -ir \
+        PA_VOLUME_NORM=100 \
+        PA_VOLUME_MUTED=0
+
+    # Cached output of `pactl list sinks`; so we don't have to call it each time we need it
+    declare PA_LIST_SINKS
+
+    # Output volume colors
+    declare -r \
+        COLOR_MUTED=${COLOR_MUTED:-#FFFF00} \
+        COLOR_MUTED_TO_BASE=${COLOR_MUTED_TO_BASE:-#00FF00} \
+        COLOR_BASE_TO_NORM=${COLOR_BASE_TO_NORM:-#FFFF00} \
+        COLOR_NORM_TO_MAX=${COLOR_NORM_TO_MAX:-#FF0000} \
+        COLOR_OTHER=${COLOR_OTHER:-#FFFFFF} \
+        COLOR_XOSD_OUTLINE=${COLOR_XOSD_OUTLINE:-#222222}
+
+    declare \
+        COLOR_RESET \
+        COLOR_RED \
+        COLOR_GREEN \
+        COLOR_YELLOW \
+        COLOR_MAGENTA \
+        COLOR_CYAN
+
+    ###########################################################
+    # Command line option variables
+    ###########################################################
+    declare -l NOTIFICATION_METHOD
+
+    declare \
+        COMMAND \
+        DISPLAY_NOTIFICATIONS=false \
+        SHOW_VOLUME_PROGRESS=false \
+        USE_AMIXER=false \
+        USE_DUNSTIFY=false \
+        USE_FULLCOLOR_ICONS=false \
+        CARD \
+        MIXER=Master \
+        PROGRESS_PLACEMENT=summary \
+        SIGNAL \
+        SINK \
+        STATUSLINE \
+        SYMBOLIC_ICON_SUFFIX \
+        NOTIFICATION_METHOD \
+        PLAY_SOUND=false \
+        USE_CANBERRA=false
+
+    declare -i \
+        EXPIRES=1500 \
+        MAX_VOLUME \
+        MAX_AMPLIFICATION=2
+
+    define_helpers
+    define_notify
+    define_output_formats
+    define_commands
+
+    setup_color
+
+    parse_opts "$@"
+
+    # Requires options to be parsed first
+    setup_audio
+
+    exec_command "${CMDARGS[*]}" && post_command_hook
+
+    exit ${EXITCODE:-$EX_OK}
+}
+
+main "$@"

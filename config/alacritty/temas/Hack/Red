@@ -1,34 +1,3 @@
-env:
-  TERM: xterm-256color
-window:
-  padding:
-    x: 6
-    'y': 6
-  title: Alacritty
-  class:
-    instance: Alacritty
-    general: Alacritty
-scrolling:
-  history: 5000
-font:
-  normal:
-    family: Hack Nerd Font
-    style: Regular
-  bold:
-    family: Hack Nerd Font
-    style: Bold
-  italic:
-    family: Hack Nerd Font
-    style: italic
-  bold_italic:
-    family: Hack Nerd Font
-    style: Bold Italic
-  size: 6
-  offset:
-    x: 0
-    'y': 1
-draw_bold_text_with_bright_colors: true
-window.opacity: 0.9
 # Colors (Hyper)
 colors:
   name: Count Von Count

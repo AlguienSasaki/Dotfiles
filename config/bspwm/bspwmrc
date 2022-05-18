@@ -2,33 +2,43 @@
 
 #_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-__-_-_-_
 #
-#██████╗ ███████╗██████╗ ██╗    ██╗███╗   ███╗██████╗  ██████╗
-#██╔══██╗██╔════╝██╔══██╗██║    ██║████╗ ████║██╔══██╗██╔════╝
-#██████╔╝███████╗██████╔╝██║ █╗ ██║██╔████╔██║██████╔╝██║     
-#██╔══██╗╚════██║██╔═══╝ ██║███╗██║██║╚██╔╝██║██╔══██╗██║     
-#██████╔╝███████║██║     ╚███╔███╔╝██║ ╚═╝ ██║██║  ██║╚██████╗
-#╚═════╝ ╚══════╝╚═╝      ╚══╝╚══╝ ╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝
-#
+#  ██████╗ ███████╗██████╗ ██╗    ██╗███╗   ███╗██████╗  ██████╗
+#  ██╔══██╗██╔════╝██╔══██╗██║    ██║████╗ ████║██╔══██╗██╔════╝
+#  ██████╔╝███████╗██████╔╝██║ █╗ ██║██╔████╔██║██████╔╝██║     
+#  ██╔══██╗╚════██║██╔═══╝ ██║███╗██║██║╚██╔╝██║██╔══██╗██║     
+#  ██████╔╝███████║██║     ╚███╔███╔╝██║ ╚═╝ ██║██║  ██║╚██████╗
+#  ╚═════╝ ╚══════╝╚═╝      ╚══╝╚══╝ ╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝
+# 
 #_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-__-_-_-_
 
 #_____________________inicio_____________________#
 
 pgrep -x sxhkd > /dev/null || sxhkd &
-~/.config/scripts/wal.sh &
 ~/.config/polybar/launch.sh &
 setxkbmap latam basic &
 unclutter &
 mpd &
-killall mpd-notification ; mpd-notification &
 greenclip daemon &
-picom --experimental-backend &
+xrandr -s 1366x768 &
+~/.config/scripts/services/mpd-ntif.sh &
+~/.config/scripts/services/infinite-wa.sh & 
+dunst &
 
 #_____________________config de los monitores_____________________#
 
+if xrandr -q | grep 'HDMI-A-0 connected'; then
+xrandr --output HDMI-A-0 --mode 1360x768 --right-of eDP
+bspc monitor -d I IV V VII
+bspc monitor HDMI-A-0 -d I II III VI VIII
+else
+bspc monitor eDP -d I II III IV V VI VII VIII
+fi
+
+xrandr --output eDP --mode 1366x768 
 #bspc monitor -d  一 二 三 四 五 六 七 八 九 零
 #bspc monitor -d I II III IV V VI VII VIII IX X
 #bspc monitor -d 0000 0001 0010 0011 0100 0101 0111 1000 1100
-bspc monitor -d 1 2 3 4 5 6 7 8 9
+#bspc monitor HDMI-A-0 -d 1 2 3 4 5 6 7 8 9
 #bspc monitor eDP -n 0 -d I II III IV V 
 #bspc monitor HDMI1 -n 1 -d VI VII VIII IX X
 
@@ -53,3 +63,7 @@ bspc config focused_frame_opacity 0.05
 #____________________reglas del escritorio____________________#
 
 bspc rule -a Onboard state=floating follow=on
+
+
+picom --experimental-backend &
+~/.config/scripts/enviroment/wal.sh &

@@ -1,0 +1,56 @@
+# Colors (Hyper)
+colors:
+  name: Greenscreen (dark)
+  author: Chris Kempson
+  primary:
+    background: "#001100"
+    foreground: "#00bb00"
+  cursor:
+    text: "#001100"
+    cursor: "#00bb00"
+  normal:
+    black: "#001100"
+    red: "#007700"
+    green: "#00bb00"
+    yellow: "#007700"
+    blue: "#009900"
+    magenta: "#00bb00"
+    cyan: "#005500"
+    white: "#00bb00"
+  bright:
+    black: "#007700"
+    red: "#007700"
+    green: "#00bb00"
+    yellow: "#007700"
+    blue: "#009900"
+    magenta: "#00bb00"
+    cyan: "#005500"
+    white: "#00ff00"
+theme: Greenscreen.dark
+# BEGIN ACE
+colors:
+  primary:
+    background: '#000100'
+    foreground: '#aae4bb'
+  cursor:
+    text:       '#000100'
+    cursor:     '#aae4bb'
+  normal:
+    black:      '#000100'
+    red:        '#189A24'
+    green:      '#2AB33E'
+    yellow:     '#57AB69'
+    blue:       '#34E258'
+    magenta:    '#4DE772'
+    cyan:       '#6DBA85'
+    white:      '#aae4bb'
+  bright:
+    black:      '#769f82'
+    red:        '#189A24'
+    green:      '#2AB33E'
+    yellow:     '#57AB69'
+    blue:       '#34E258'
+    magenta:    '#4DE772'
+    cyan:       '#6DBA85'
+    white:      '#aae4bb'
+# END ACE

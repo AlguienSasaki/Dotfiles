@@ -1,10 +1,10 @@
-sw_volume: 86
+sw_volume: 96
 audio_device_state:1:mpd alsamixer-output
 audio_device_state:1:toggle_visualizer
 state: pause
-current: 154
-time: 71.765000
-random: 1
+current: 132
+time: 49.293000
+random: 0
 repeat: 1
 single: 0
 consume: 0
@@ -12,241 +12,167 @@ crossfade: 0
 mixrampdb: 0.000000
 mixrampdelay: -1.000000
 playlist_begin
-0:Panic! At The Disco - I Write Sins Not Tragedies [OFFICIAL VIDEO].mp3
-1:Introduction.mp3
-2:Panic! At The Disco  - Lying Is The Most Fun... [OFFICIAL VIDEO].mp3
-3:Panic! At The Disco - Build God, Then We'll Talk [OFFICIAL VIDEO].mp3
-4:Panic! At The Disco - Camisado (Official Audio).mp3
-5:Panic! At The Disco - I Constantly Thank God For Esteban (Official Audio).mp3
-6:Panic! At The Disco - Intermission (Official Audio).mp3
-7:Panic! At The Disco - London Beckoned Songs About Money Written By Machines (Official Audio).mp3
-8:Panic! At The Disco - Nails For Breakfast, Tacks For Snacks (Official Audio).mp3
-9:Panic! At The Disco - The Only Difference Between Martyrdom and Suicide Is Press Coverage (Audio).mp3
-10:Panic! At The Disco - There's A Good Reason These Tables Are Numbered Honey... (Official Audio).mp3
-11:Panic! At The Disco - Time To Dance (Official Audio).mp3
-12:American Beauty_American Psycho.mp3
-13:Centuries.mp3
-14:Favorite Record.mp3
-15:Fourth Of July.mp3
-16:Immortals.mp3
-17:Irresistible.mp3
-18:Jet Pack Blues.mp3
-19:Novocaine.mp3
-20:The Kids Aren't Alright.mp3
-21:Twin Skeleton's (Hotel In NYC).mp3
-22:Uma Thurman.mp3
-23:Doubt.mp3
-24:Fairly Local.mp3
-25:Goner.mp3
-26:Heavydirtysoul.mp3
-27:Hometown.mp3
-28:Lane Boy.mp3
-29:Message Man.mp3
-30:Not Today.mp3
-31:Polarize.mp3
-32:Ride.mp3
-33:Stressed Out.mp3
-34:Tear in My Heart.mp3
-35:The Judge.mp3
-36:We Don't Believe What's on TV.mp3
-37:Death of a Bachelor.mp3
-38:Don't Threaten Me With a Good Time.mp3
-39:Emperor's New Clothes.mp3
-40:Golden Days.mp3
-41:Hallelujah.mp3
-42:House of Memories.mp3
-43:Impossible Year.mp3
-44:LA Devotee.mp3
-45:Panic! At The Disco - Crazy = Genius (Official Audio).mp3
-46:The Good, the Bad and the Dirty.mp3
-47:Victorious.mp3
-48:Panic! At The Disco - But It's Better If You Do [OFFICIAL VIDEO].mp3
-49:twenty one pilots - My Blood [Official Audio].mp3
-50:[Coffee's For Closers].mp3
-51:20 Dollar Nose Bleed.mp3
-52:27.mp3
-53:America's Suitehearts.mp3
-54:Disloyal Order Of Water Buffaloes.mp3
-55:Headfirst Slide Into Cooperstown On A Bad Bet.mp3
-56:I Don't Care.mp3
-57:She's My Winona.mp3
-58:The (Shipped) Gold Standard.mp3
-59:Tiffany Blews.mp3
-60:w.a.m.s..mp3
-61:West Coast Smoker.mp3
-62:What A Catch, Donnie.mp3
-63:7 Minutes In Heaven (Atavan Halen).mp3
-64:A Little Less Sixteen Candles, A Little More 'Touch Me'.mp3
-65:Champagne For My Real Friends, Real Pain For My Sham Friends.mp3
-66:Dance, Dance.mp3
-67:Get Busy Living Or Get Busy Dying (Do Your Part To Save The Scene And Stop Going To Shows).mp3
-68:I Slept With Someone In Fall Out Boy And All I Got Was This Stupid Song Written About Me.mp3
-69:I've Got A Dark Alley And A Bad Idea That Says You Should Shut Your Mouth (Summer Song).mp3
-70:Nobody Puts Baby In The Corner.mp3
-71:Of All The Gin Joints In All The World.mp3
-72:Our Lawyer Made Us Change The Name Of This Song So We Wouldn't Get Sued.mp3
-73:Sophomore Slump Or Comeback Of The Year.mp3
-74:Sugar, We're Goin Down.mp3
-75:XO.mp3
-76:'The Take Over, The Breaks Over'.mp3
-77:Don't You Know Who I Think I Am.mp3
-78:Golden.mp3
-79:Hum Hallelujah.mp3
-80:I'm Like A Lawyer With The Way I'm Always Trying To Get You Off (Me & You).mp3
-81:This Ain't A Scene, It's An Arms Race.mp3
-82:Thnks fr th Mmrs.mp3
-83:Thriller.mp3
-84:Now.mp3
-85:[One of Those] Crazy Girls.mp3
-86:Ain't It Fun.mp3
-87:Anklebiters.mp3
-88:Be Alone.mp3
-89:Daydreaming.mp3
-90:Fast in My Car.mp3
-91:Future.mp3
-92:Grow Up.mp3
-93:Hate to See Your Heart Break.mp3
-94:Interlude - Holiday.mp3
-95:Interlude - I'm Not Angry Anymore.mp3
-96:Interlude - Moving On.mp3
-97:Last Hope.mp3
-98:Part II.mp3
-99:Proof.mp3
-100:Still into You.mp3
-101:[Fuck A] Silver Lining.mp3
-102:Dancing's Not a Crime.mp3
-103:Dying in LA.mp3
-104:Hey Look Ma, I Made It.mp3
-105:High Hopes.mp3
-106:King of the Clouds.mp3
-107:Old Fashioned.mp3
-108:One of the Drunks.mp3
-109:Roaring 20s.mp3
-110:Say Amen (Saturday Night).mp3
-111:The Overpass.mp3
-112:Behind the Sea.mp3
-113:Do You Know What I'm Seeing.mp3
-114:Folkin' Around.mp3
-115:From a Mountain in the Middle of the Cabins.mp3
-116:I Have Friends in Holy Spaces.mp3
-117:Mad as Rabbits.mp3
-118:Nine in the Afternoon.mp3
-119:Northern Downpour.mp3
-120:Pas de Cheval.mp3
-121:She Had the World.mp3
-122:She's a Handsome Woman.mp3
-123:That Green Gentleman (Things Have Changed).mp3
-124:The Piano Knows Something I Don't Know.mp3
-125:We're So Starving.mp3
-126:When the Day Met the Night.mp3
-127:Born for This.mp3
-128:crushcrushcrush.mp3
-129:Fences.mp3
-130:For a Pessimist, I'm Pretty Optimistic.mp3
-131:Hallelujah_p.mp3
-132:Let the Flames Begin.mp3
-133:Miracle.mp3
-134:Misery Business.mp3
-135:That's What You Get.mp3
-136:We Are Broken.mp3
-137:When It Rains.mp3
-138:Alone Together.mp3
-139:Death Valley.mp3
-140:Just One Yesterday.mp3
-141:Miss Missing You.mp3
-142:My Songs Know What You Did In The Dark (Light Em Up).mp3
-143:Rat A Tat.mp3
-144:Save Rock And Roll.mp3
-145:The Mighty Fall.mp3
-146:The Phoenix.mp3
-147:Where Did The Party Go.mp3
-148:Young Volcanoes.mp3
-149:Calm Before the Storm.mp3
-150:Chicago Is so Two Years Ago.mp3
-151:Dead on Arrival.mp3
-152:Grand Theft Autumn _ Where Is Your Boy.mp3
-153:Grenade Jumper.mp3
-154:Homesick at Space Camp.mp3
-155:Reinventing the Wheel to Run Myself Over.mp3
-156:Saturday.mp3
-157:Sending Postcards from a Plane Crash (Wish You Were Here).mp3
-158:Tell That Mick He Just Made My List of Things to Do Today.mp3
-159:The Patron Saint of Liars and Fakes.mp3
-160:The Pros and Cons of Breathing.mp3
-161:Casual Affair.mp3
-162:Collar Full.mp3
-163:Far Too Young to Die.mp3
-164:Girl That You Love.mp3
-165:Girls _ Girls _ Boys.mp3
-166:Miss Jackson (feat. LOLO).mp3
-167:Nicotine.mp3
-168:The End of All Things.mp3
-169:This Is Gospel.mp3
-170:Vegas Lights.mp3
-171:Bandito.mp3
-172:Chlorine.mp3
-173:Cut My Lip.mp3
-174:Jumpsuit.mp3
-175:Leave the City.mp3
-176:Legend.mp3
-177:Levitate.mp3
-178:Morph.mp3
-179:Neon Gravestones.mp3
-180:Nico And The Niners.mp3
-181:Pet Cheetah.mp3
-182:Smithereens.mp3
-183:The Hype.mp3
-184:Car Radio.mp3
-185:Fake You Out.mp3
-186:Guns for Hands.mp3
-187:Holding on to You.mp3
-188:House of Gold.mp3
-189:Migraine.mp3
-190:Ode to Sleep.mp3
-191:Screen.mp3
-192:Semi-Automatic.mp3
-193:The Run and Go.mp3
-194:Trees.mp3
-195:Truce.mp3
-196:Always.mp3
-197:Hurricane.mp3
-198:Let's Kill Tonight.mp3
-199:Memories.mp3
-200:Nearly Witches (Ever Since We Met...).mp3
-201:Ready to Go (Get Me Out of My Mind).mp3
-202:Sarah Smiles.mp3
-203:The Ballad of Mona Lisa.mp3
-204:The Calendar.mp3
-205:Trade Mistakes.mp3
-206:mashups/[FOR CECILIA & KEVIN!] Panic! At The Disco Minimix - This Is Gospel, LA Devotee & More!.mp3
-207:mashups/[HALLOWEEN MASHUP!!] Spooky Scary Skeletons x Emperor's New Clothes Mashup (Andrew Gold, PATD!).mp3
-208:mashups/Amen Lane (Saturday Night).mp3
-209:mashups/Annie! At The Disco - Michael Jackson vs. Panic! At The Disco (Mashup).mp3
-210:mashups/BEE GEES & EMINEM - Without Alive (hawell Mashup).mp3
-211:mashups/Boulevard of Miss Jackson (Mashup) – Green Day Panic! at the Disco.mp3
-212:mashups/Camisado Gospel (P!ATD Mashup).mp3
-213:mashups/Church (Say Amen) - FOB × P!ATD (REVERSE TO SAY AMEN FOR CHURCH).mp3
-214:mashups/Collar Full of Sugar - Panic! At The Disco vs. Fall Out Boy (Mashup).mp3
-215:mashups/Death Of An LA Bachelor (Version 2) [MASHUP] (Panic! At The Disco).mp3
-216:mashups/Death Of Nico and The Niners (Mashup) - Panic! At The Disco & twenty one pilots.mp3
-217:mashups/Doki Doki Forever but it’s Sugar, We’re Goin Down (mashup).mp3
-218:mashups/Fall Out Boy - The Megamix (Mashup by InanimateMashups).mp3
-219:mashups/FOB & Imagine Dragons Light Em Up Vs Warriors Mashup.mp3
-220:mashups/i count fireflies not tragedies.mp3
-221:mashups/I Write Sins Not Tragedies Thnks Fr th Mmrs Mashup.mp3
-222:mashups/I Write Sins x Stressed Out (Mashup) - Twenty One Pilots, Panic! at The Disco.mp3
-223:mashups/Lastdyingsoul (mashup) - Panic! at the Disco + Fall Out Boy + twenty one pilots.mp3
-224:mashups/Melanie Martinez vs. Panic! At The Disco - Death Of An Alphabet Boy (Mashup).mp3
-225:mashups/Ode to Uma Thurman Twenty One Pilots Fall Out Boy (Mashup).mp3
-226:mashups/Panic! At The Disco - Death Of A Bachelor This Is Gospel Mashup.mp3
-227:mashups/Panic! at the Disco - The Mashup.mp3
-228:mashups/Panic! At The Disco & Melanie Martinez - I Write Sins, Not Tragedies Alphabet Boy Mashup.mp3
-229:mashups/Panic! At the disco Vs Imagine dragons - This is radioactive (Mashup).mp3
-230:mashups/Panic! At The Disco vs. Fall Out Boy - High Hopes In The Dark (Mashup).mp3
-231:mashups/Panic! At The Disco vs. KYLE ft. Lil Yachty - iSpy Sins Not Tragedies (Mashup).mp3
-232:mashups/Say Amen For Church - P!ATD × FOB (Mashup).mp3
-233:mashups/Sugar, We're Disenchanted - My Chemical Romance & Fall Out Boy (Mashup).mp3
-234:mashups/This Car is Gospel Radio ( This is Gospel and Car Radio mashup).mp3
-235:mashups/Threatening Volcanoes - Fall Out Boy vs. Panic! At The Disco (Mashup).mp3
-236:mashups/Young Gospel - Panic! At The Disco vs. Fall Out Boy (Mashup).mp3
+0:Fall 0ut Boy/Bob Dylan.mp3
+1:Fall 0ut Boy/From Now On We Are Enemies.mp3
+2:Fall 0ut Boy/Save Rock And Roll/Alone Together.mp3
+3:Fall 0ut Boy/Save Rock And Roll/Miss Missing You.mp3
+4:Fall 0ut Boy/Save Rock And Roll/Just One Yesterday.mp3
+5:Fall 0ut Boy/Save Rock And Roll/Young Volcanoes.mp3
+6:Fall 0ut Boy/M A N I A/Sunshine Riptide (feat. Burna Boy).mp3
+7:Fall 0ut Boy/M A N I A/Bishop Knife Trick.mp3
+8:Fall 0ut Boy/Infinity On High/Thnks fr th Mmrs.mp3
+9:Fall 0ut Boy/From Under The Cork Tree/Sugar, We're Goin Down.mp3
+10:Fall 0ut Boy/From Under The Cork Tree/Dance, Dance.mp3
+11:Fall 0ut Boy/Folie à Deux/20 Dollar Nose Bleed.mp3
+12:Fall 0ut Boy/Folie à Deux/America's Suitehearts.mp3
+13:Fall 0ut Boy/American Beauty_American Psycho/Favorite Record.mp3
+14:Fall 0ut Boy/American Beauty_American Psycho/Immortals.mp3
+15:Fall 0ut Boy/American Beauty_American Psycho/The Kids Aren't Alright.mp3
+16:Billie Eilish/Don't Smile at Me/bellyache.mp3
+17:Billie Eilish/Don't Smile at Me/ocean eyes.mp3
+18:Billie Eilish/Happier Than Ever/Happier Than Ever.mp3
+19:Billie Eilish/When We All Fall Asleep, Where Do We Go?/Wish You Were Gay.mp3
+20:Harry Styles/Fine Line/Adore You.mp3
+21:Harry Styles/Fine Line/Canyon Moon.mp3
+22:Harry Styles/Fine Line/Cherry.mp3
+23:Harry Styles/Fine Line/Golden.mp3
+24:Harry Styles/Fine Line/Lights Up.mp3
+25:Harry Styles/Fine Line/She.mp3
+26:Harry Styles/Fine Line/Sunflower, Vol. 6.mp3
+27:Harry Styles/Harry Styles/Carolina.mp3
+28:Harry Styles/Harry Styles/Woman.mp3
+29:Harry Styles/Harry Styles/Meet Me in the Hallway.mp3
+30:Imagine Dragons/Nigth Visions/Demons.mp3
+31:Imagine Dragons/Nigth Visions/Cha-Ching (Till We Grow Older).mp3
+32:Imagine Dragons/Nigth Visions/Demons.mp3
+33:Imagine Dragons/Origins/Bad Liar.mp3
+34:Melanie Martinez/After School/Test Me.mp3
+35:Melanie Martinez/Cry Baby/Mrs. Potato Head.mp3
+36:Melanie Martinez/Cry Baby/Play Date.mp3
+37:Melanie Martinez/Cry Baby/Training Wheels.mp3
+38:Melanie Martinez/Cry Baby/Teddy Bear.mp3
+39:Melanie Martinez/K-12/Copy Cat ft. Tierra Whack.mp3
+40:Melanie Martinez/K-12/Wheels on the Bus.mp3
+41:Michael Jackson/Invincible/You Rock My World.mp3
+42:Michael Jackson/Dangerous/Remember the Time.mp3
+43:My Chemical Romance/Three Cheers for Sweet Revenge/I'm Not Okay (I Promise).mp3
+44:Neffex/NEFFEX - Best of Me 🤘 [Copyright Free].mp3
+45:Neffex/NEFFEX - Careless 💔 [Copyright Free].mp3
+46:Neffex/NEFFEX - Destiny 🙌   [Copyright Free].mp3
+47:Neffex/NEFFEX - Grateful [Copyright Free].mp3
+48:Panic! At The Disco/A Fever You Can't Sweat Out/Camisado.mp3
+49:Panic! At The Disco/Death Of A Bachelor/Golden Days.mp3
+50:Panic! At The Disco/Death Of A Bachelor/House of Memories.mp3
+51:Panic! At The Disco/Death Of A Bachelor/Impossible Year.mp3
+52:Panic! At The Disco/Death Of A Bachelor/Death of a Bachelor.mp3
+53:Panic! At The Disco/Pray For The Wicked/Dancing's Not a Crime.mp3
+54:Panic! At The Disco/Pray For The Wicked/Hey Look Ma, I Made It.mp3
+55:Panic! At The Disco/Pray For The Wicked/High Hopes.mp3
+56:Panic! At The Disco/Pray For The Wicked/King of the Clouds.mp3
+57:Panic! At The Disco/Pray For The Wicked/One of the Drunks.mp3
+58:Panic! At The Disco/Pray For The Wicked/Roaring 20s.mp3
+59:Panic! At The Disco/Pretty Odd/Behind the Sea.mp3
+60:Panic! At The Disco/Pretty Odd/Nine in the Afternoon.mp3
+61:Panic! At The Disco/Pretty Odd/Northern Downpour.mp3
+62:Panic! At The Disco/Pretty Odd/The Piano Knows Something I Don't Know.mp3
+63:Panic! At The Disco/Pretty Odd/When the Day Met the Night.mp3
+64:Panic! At The Disco/Too Weird To Live Too Rare To Die/This is Gospel (Piano Edition).mp3
+65:Panic! At The Disco/Too Weird To Live Too Rare To Die/All The Boys.mp3
+66:Panic! At The Disco/Too Weird To Live Too Rare To Die/Can't Fight Against the Youth.mp3
+67:Panic! At The Disco/Too Weird To Live Too Rare To Die/Collar Full.mp3
+68:Panic! At The Disco/Too Weird To Live Too Rare To Die/Far Too Young to Die.mp3
+69:Panic! At The Disco/Too Weird To Live Too Rare To Die/Girl That You Love.mp3
+70:Panic! At The Disco/Too Weird To Live Too Rare To Die/Girls _ Girls _ Boys.mp3
+71:Panic! At The Disco/Too Weird To Live Too Rare To Die/Miss Jackson (feat. LOLO).mp3
+72:Panic! At The Disco/Too Weird To Live Too Rare To Die/The End of All Things.mp3
+73:Panic! At The Disco/Too Weird To Live Too Rare To Die/This Is Gospel.mp3
+74:Panic! At The Disco/Too Weird To Live Too Rare To Die/Vegas Lights.mp3
+75:Panic! At The Disco/Vices & Virtues/Always.mp3
+76:Panic! At The Disco/Vices & Virtues/Bittersweet.mp3
+77:Panic! At The Disco/Vices & Virtues/I Wanna Be Free.mp3
+78:Panic! At The Disco/Vices & Virtues/Kaleidoscope Eyes.mp3
+79:Panic! At The Disco/Vices & Virtues/Let's Kill Tonight.mp3
+80:Panic! At The Disco/Vices & Virtues/Memories.mp3
+81:Panic! At The Disco/Vices & Virtues/New Perspective.mp3
+82:Panic! At The Disco/Vices & Virtues/Ready To Go (Get Me Out of My Mind).mp3
+83:Panic! At The Disco/Vices & Virtues/Sarah Smiles.mp3
+84:Panic! At The Disco/Vices & Virtues/Stall Me.mp3
+85:Panic! At The Disco/Vices & Virtues/The Calendar.mp3
+86:Panic! At The Disco/Vices & Virtues/Trade Mistakes.mp3
+87:Panic! At The Disco/Vices & Virtues/Turn Off The Lights.mp3
+88:Paramore/After Laughter/Hard Times.mp3
+89:The Brobecks/Violent Things/Far Too Young To Die.mp3
+90:The Brobecks/Violent Things/Better Than Me.mp3
+91:Troye Sivan/Bloom/Bloom.mp3
+92:Troye Sivan/Blue Neighbourhood/FOOLS.mp3
+93:Troye Sivan/Blue Neighbourhood/for him..mp3
+94:Troye Sivan/Strawberries & Cigarettes.mp3
+95:Twenty One Pilots/Blurryface/Tear in My Heart.mp3
+96:Twenty One Pilots/Blurryface/Ride.mp3
+97:Twenty One Pilots/Scaled And Icy/Bounce Man.mp3
+98:Twenty One Pilots/Scaled And Icy/Choker.mp3
+99:Twenty One Pilots/Scaled And Icy/Formidable.mp3
+100:Twenty One Pilots/Scaled And Icy/Good Day.mp3
+101:Twenty One Pilots/Scaled And Icy/Mulberry Street.mp3
+102:Twenty One Pilots/Scaled And Icy/Saturday.mp3
+103:Twenty One Pilots/Scaled And Icy/Shy Away.mp3
+104:Twenty One Pilots/Trench/Legend.mp3
+105:Twenty One Pilots/Trench/Smithereens.mp3
+106:Twenty One Pilots/Trench/The Hype.mp3
+107:Twenty One Pilots/Vessel/Fake You Out.mp3
+108:Twenty One Pilots/Vessel/Guns for Hands.mp3
+109:Twenty One Pilots/Vessel/Holding on to You.mp3
+110:Twenty One Pilots/Level of Concern.mp3
+111:Imagine Dragons/Nigth Visions/Imagine Dragons - My Fault.mp3
+112:Imagine Dragons/Nigth Visions/Hear Me.mp3
+113:Imagine Dragons/Nigth Visions/Every Night.mp3
+114:Imagine Dragons/Nigth Visions/Working Man - Imagine Dragons HD (NEW).mp3
+115:Imagine Dragons/Nigth Visions/Round and Round Lyrics ~ Imagine Dragons l skyblueuke.mp3
+116:Harry Styles/Harry's House/As It Was.mp3
+117:aes/Beat it x STAY - Micheal Jackson, Justin Bieber & The Kid LAROI.mp3
+118:aes/Collar Full x As It Was .mp3
+119:aes/Hace tiempo que mi corazón no se enamora (Waifu Anime) _Say So _ Doja Cat x Mendes (Sub. Español ).mp3
+120:aes/Kero Kero Bonito - Flamingo.mp3
+121:aes/kimi no super idol (super idol x summertime mashup).mp3
+122:aes/Levitating _ Adore You — Dua Lipa and Harry Styles (Mashup!).mp3
+123:aes/Levitating x Miss Jackson.mp3
+124:aes/Louis Tomlinson - Back to You (Official Video) ft. Bebe Rexha, Digital Farm Animals.mp3
+125:aes/P!ATD vs. Melanie Martinez - 'Mrs. Jackson' (Mashup).mp3
+126:aes/play date x copy cat • (mashup) melanie martinez, tierra whack ‧₊˚✧.mp3
+127:aes/Say So x Levitating - Dua Lipa & Doja Cat [Mashup].mp3
+128:aes/The Last Of The Concerned Ones (Mashup) twenty one pilots, Fall Out Boy.mp3
+129:aes/Молчат Дома (Molchat Doma) - Судно (Sudno).mp3
+130:aes/Kiss Me More (Japanese Version).mp3
+131:aes/Play Date x Build a B_tch (Mashup).mp3
+132:aes/Say So (Japanese Version).mp3
+133:aes/Screen In The Afternoon (Mashup) TØP feat. P!ATD.mp3
+134:aes/Shy Devotee (mashup) - twenty one pilots + Panic! At The Disco.mp3
+135:aes/Resort Island  - Can You Feel The Sunshine.mp3
+136:aes/this is what falling in love feels like.mp3
+137:Lil Peep & ILoveMakonnen feat. Fall Out Boy – I’ve Been Waiting.mp3
+138:RUDE - Eternal Youth.mp3
+139:Vacations - Young.mp3
+140:Feels.mp3
+141:Honeypie.mp3
+142:I Dnt Lv Yr Mmrs - Fall Out Boy vs My Chemical Romance (Mashup).mp3
+143:aes/Beat it x STAY - Micheal Jackson, Justin Bieber & The Kid LAROI.mp3
+144:aes/Collar Full x As It Was .mp3
+145:aes/Hace tiempo que mi corazón no se enamora (Waifu Anime) _Say So _ Doja Cat x Mendes (Sub. Español ).mp3
+146:aes/Kero Kero Bonito - Flamingo.mp3
+147:aes/kimi no super idol (super idol x summertime mashup).mp3
+148:aes/Levitating _ Adore You — Dua Lipa and Harry Styles (Mashup!).mp3
+149:aes/Levitating x Miss Jackson.mp3
+150:aes/Louis Tomlinson - Back to You (Official Video) ft. Bebe Rexha, Digital Farm Animals.mp3
+151:aes/P!ATD vs. Melanie Martinez - 'Mrs. Jackson' (Mashup).mp3
+152:aes/play date x copy cat • (mashup) melanie martinez, tierra whack ‧₊˚✧.mp3
+153:aes/Say So x Levitating - Dua Lipa & Doja Cat [Mashup].mp3
+154:aes/The Last Of The Concerned Ones (Mashup) twenty one pilots, Fall Out Boy.mp3
+155:aes/Молчат Дома (Molchat Doma) - Судно (Sudno).mp3
+156:aes/Kiss Me More (Japanese Version).mp3
+157:aes/Play Date x Build a B_tch (Mashup).mp3
+158:aes/Say So (Japanese Version).mp3
+159:aes/Screen In The Afternoon (Mashup) TØP feat. P!ATD.mp3
+160:aes/Shy Devotee (mashup) - twenty one pilots + Panic! At The Disco.mp3
+161:aes/Resort Island  - Can You Feel The Sunshine.mp3
+162:aes/this is what falling in love feels like.mp3
 playlist_end

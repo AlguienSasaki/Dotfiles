@@ -2,7 +2,12 @@
 
 source $HOME/config/scripts/appeareance/General-Options.sh
 
+theme (){
+  write $1 && app &
+}
+
 # Availabe themes
+o
 
 gray="		Graveyard"
 vap="		Vaporware"
@@ -11,41 +16,35 @@ gruvb="		Gruvbox"
 dark="		Hack"
 aes="	  ✨ A E S T H E T I C ✨"
 cap="		Catppuccin"
+mdrn="		Modern"
 
-options="$aes\n$cap\n$gray\n$gruvb\n$nord\n$vap\n$dark"
-
-
-gen () {
- 
-  DIR=~/.config
-  cat $DIR/polybar/$1/launch.sh > $DIR/polybar/launch.sh &
-
-}
+options="$aes\n$mdrn\n$dark\n$gray\n$cap\n$gruvb\n$nord\n$vap"
 
 draw-menu
 case $chosen in
     $nord)
-			gen blocks && theme Nord  &&  ~/config/polybar/blocks/scripts/styles.sh --default &
+			theme Nord  &&  ~/config/polybar/blocks/scripts/styles.sh --default &
         ;;
     $gruvb)
-			gen blocks && theme Gruvbox &&  ~/config/polybar/blocks/scripts/styles.sh --gruvbox &
+			theme Gruvbox &&  ~/config/polybar/blocks/scripts/styles.sh --gruvbox &
         ;;
     $dark)
 			bash ~/.config/scripts/appeareance/Hack.sh
         ;;
     $vap)
-			gen forest && theme Vaporware 
+			theme Vaporware 
         ;;
-     $aes)
+    $aes)
 			bash ~/.config/scripts/appeareance/Aesthetic.sh
         ;;
-
+    $mdrn)
+			bash ~/.config/scripts/appeareance/Modern.sh
+        ;;
     $cap)
-			gen shapes && theme catppuccin 
+			theme Catppuccin 
         ;;
 
     $gray)
-			gen murz && theme Graveyard 
+			theme Graveyard 
         ;;
 esac
-

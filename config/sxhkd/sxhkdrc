@@ -11,7 +11,7 @@
 
 # Reload Sxhkd
 super + Escape
-	pkill -USR1 -x sxhkd;dunstify -i $HOME/.config/dunst/iconpng/arch.png SXHKDRC RECARGADO
+	~/.config/scripts/enviroment/sxhkd.sh
 
 # Launch Terminal Emulator 
 super + Return
@@ -38,7 +38,7 @@ super + w
 	chromium	
 
 # Launch Web browser In Incognito Mode
-super + shift + w 
+super + shift + w
 	chromium --incognito
 
 # Screenshots
@@ -55,7 +55,7 @@ super + r
 
 # Change Wallpaper
 super + n
-	~/.config/scripts/wal.sh
+	~/.config/scripts/enviroment/wal.sh
 
 # Launch PDF Viewer
 super + e
@@ -71,28 +71,29 @@ super + m
 
 # Launch cmatrix
 super + c
-	rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
-
+	~/.config/scripts/enviroment/greenclip.sh
+	
 # Music options
 super + p 
 	~/.config/rofi/applets/android/mpd.sh
 
 # change windows
 super + Tab
-	~/.config/scripts/switcher.sh
+	~/.config/scripts/enviroment/switcher.sh
 
 # Modify volume 
 {XF86AudioLowerVolume,XF86AudioRaiseVolume}
-	{pactl set-sink-volume alsa_output.pci-0000_00_09.2.analog-stereo -5% & pactl set-sink-volume bluez_sink.41_42_2A_08_F5_94.a2dp_sink -5%, pactl set-sink-volume alsa_output.pci-0000_00_09.2.analog-stereo +5% & pactl set-sink-volume bluez_sink.41_42_2A_08_F5_94.a2dp_sink +5% }
+	{pactl set-sink-volume alsa_output.pci-0000_00_09.2.analog-stereo -5% ; pactl set-sink-volume alsa_output.pci-0000_00_01.1.hdmi-stereo -5% ; pactl set-sink-volume bluez_sink.41_42_2A_08_F5_94.a2dp_sink -5% & ~/config/scripts/volume.sh, pactl set-sink-volume alsa_output.pci-0000_00_09.2.analog-stereo +5% ; pactl set-sink-volume alsa_output.pci-0000_00_01.1.hdmi-stereo +5% ; pactl set-sink-volume bluez_sink.41_42_2A_08_F5_94.a2dp_sink +5% & ~/config/scripts/volume.sh }
 
 
 # Mute & Unmute Volume
 XF86AudioMute	
-	{amixer sset Master mute;dunstify -i $HOME/.config/dunst/iconpng/arch.png Audio Deshabilitado, amixer sset Master unmute;dunstify -i $HOME/.config/dunst/iconpng/arch.png Audio Habilitado}
+	{amixer sset Master mute && dunstify -i $HOME/.config/dunst/iconpng/n.png Audio Deshabilitado, amixer sset Master unmute && dunstify -i $HOME/.config/dunst/iconpng/si.png Audio Habilitado}
 
 # Mute Mic & Unmute mic
+bspc monitor HDMI-A-0 -d  a b c d e
 XF86AudioMicMute
-	~/.config/scripts/micr.sh
+	~/.config/scripts/enviroment/micr.sh
 
 # Decrease Brightness
 {XF86MonBrightnessDown, XF86MonBrightnessUp}
@@ -107,13 +108,12 @@ super + XF86MonBrightnessUp
 	light -S 100
 
 # Lock PC
-#super + l 
-#	betterlockscreen -l
-#	#GLITCHICON=~/.config/glitchlock/stop.png ~/.config/glitchlock/glitchlock
+super + l 
+	betterlockscreen -l
 
-
-
-
+# Lock PC
+super + shift + s
+	systemctl suspend && xset dpms force off && betterlockscreen -l
 
 #
 #     ██████╗ ███████╗██████╗ ██╗    ██╗███╗   ███╗
@@ -237,8 +237,8 @@ super + alt + shift + {Left,Down,Up,Right}
 super + {a,x,w,d}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
 
-super + button{4,5}
-	bspc config window_gap $(( $(bspc config window_gap) {-,+} 5 ))
+super + ctrl + button{4,5}
+	bspc config window_gap $(( $(bspc config window_gap) {-,+} 2 ))
 
 #ctrl + super + {Left,Right}
 #	bspc desktop -f {prev,next} 

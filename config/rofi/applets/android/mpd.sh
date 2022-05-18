@@ -36,12 +36,12 @@ fi
 chosen="$(echo -e "$options" | $rofi_command -p "  $current" -dmenu $active $urgent -selected-row 1)"
 case $chosen in
     $previous)
-        mpc -q prev && notify-send -u low -t 1800 " $(mpc current)"
+        mpc -q prev 
         ;;
     $play_pause)
-        mpc -q toggle && notify-send -u low -t 1800 " $(mpc current)"
+        mpc -q toggle 
         ;;
     $next)
-        mpc -q next && notify-send -u low -t 1800 " $(mpc current)"
+        mpc -q next 
         ;;
 esac
