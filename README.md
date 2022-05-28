@@ -3,7 +3,7 @@
 </h1>
 
 
-* **OS**: Arch Linux (It work on gentoo, Ubuntu & Fedora)
+* **OS**: Arch Linux (It also work on Gentoo, Ubuntu & Fedora)
 * **WM**: **[BSPWM](https://github.com/baskerville/bspwm)**
 * **Bar**: **[Polybar](https://github.com/polybar/polybar)**
 * **Terminal**:  **[Alacritty](https://github.com/alacritty/alacritty)**
