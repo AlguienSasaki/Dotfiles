@@ -1,6 +1,6 @@
 [Settings]
-gtk-theme-name=Elemento Bubblegum
-gtk-icon-theme-name=Nordzy-pink
+gtk-theme-name=Gruvbox-Light
+gtk-icon-theme-name=Flat-Remix-Brown-Light-darkPanel
 gtk-font-name=Cantarell 11
 gtk-cursor-theme-name=Adwaita
 gtk-cursor-theme-size=0
