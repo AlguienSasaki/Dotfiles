@@ -35,11 +35,11 @@ super + shift + a
 
 # Launch Web Browser
 super + w
-	chromium	
+	firefox	
 
 # Launch Web browser In Incognito Mode
 super + shift + w
-	chromium --incognito
+	firefox --private-window	
 
 # Screenshots
 Print
@@ -242,3 +242,7 @@ super + ctrl + button{4,5}
 
 #ctrl + super + {Left,Right}
 #	bspc desktop -f {prev,next} 
+
+### Three finger swipe (left or right) to change desktop
+@button{10,11}
+    bspc desktop -f {prev,next}

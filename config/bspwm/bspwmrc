@@ -11,23 +11,31 @@
 # 
 #_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-__-_-_-_
 
-#_____________________inicio_____________________#
+#userChrome.css_____________________inicio_____________________#
 
 pgrep -x sxhkd > /dev/null || sxhkd &
 ~/.config/polybar/launch.sh &
 setxkbmap latam basic &
 unclutter &
 mpd &
-greenclip daemon &
-xrandr -s 1366x768 &
 ~/.config/scripts/services/mpd-ntif.sh &
 ~/.config/scripts/services/infinite-wa.sh & 
+~/.config/scripts/services/greenclip.sh & 
+~/.config/scripts/services/touchegg.sh & 
 dunst &
+touchegg &
+greenclip daemon &
+
+#_____________________polkit______________________________________
+
+if [ -f /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 ]; then 
+  /usr/lib/policykit-1-gnome/polkit-gnome- authentication-agent-1 &
+fi
 
 #_____________________config de los monitores_____________________#
 
 if xrandr -q | grep 'HDMI-A-0 connected'; then
-xrandr --output HDMI-A-0 --mode 1360x768 --right-of eDP
+xrandr --output HDMI-A-0 --mode 1024x768 --right-of eDP
 bspc monitor -d I IV V VII
 bspc monitor HDMI-A-0 -d I II III VI VIII
 else
@@ -58,7 +66,7 @@ bspc config remove_unplugged_monitors true
 bspc config remove_disabled_monitors true
 bspc config pointer_modifier mod4
 bspc config focused_frame_opacity 0.05
-
+bspc config pointer_follows_focus true
 
 #____________________reglas del escritorio____________________#
 
