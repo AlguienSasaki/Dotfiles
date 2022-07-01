@@ -11,7 +11,7 @@ hack-theme () {
 }
 
 apply (){
-hack-theme $1 && theme Hack/$1
+hack-theme $1 && theme $1
 }
 
 # Availabe themes
