@@ -37,7 +37,7 @@ case $chosen in
     $mac)
 			killall polybar && apply Mac && killall polybar &
         ;;
-    $bu)
+    $gnm)
 			apply Blue 	
         ;;
     $cap)

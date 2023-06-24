@@ -16,7 +16,7 @@ gruvb="		Gruvbox"
 dark="		Hack"
 aes="	  ✨ A E S T H E T I C ✨"
 cap="		Catppuccin"
-mdrn="		Modern"
+mdrn="		Normal"
 
 options="$aes\n$mdrn\n$dark\n$gray\n$cap\n$gruvb\n$nord\n$vap"
 
@@ -38,7 +38,7 @@ case $chosen in
 			bash ~/.config/scripts/appeareance/Aesthetic.sh
         ;;
     $mdrn)
-			bash ~/.config/scripts/appeareance/Modern.sh
+			theme Normal 
         ;;
     $cap)
 			theme Catppuccin 

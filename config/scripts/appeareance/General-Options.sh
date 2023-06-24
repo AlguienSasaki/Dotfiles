@@ -22,7 +22,7 @@ write() {
   cat $DIR/switcher/$TEN > $DIR/rofi/change.rasi &
   cat $DIR/polybar/$TEN > $DIR/polybar/launch.sh &
   echo "dunstify -i ~/.config/dunst/iconpng/$1.jpg 'Tema $1 correctamente aplicado' " > $DIR/scripts/enviroment/dunst.sh &
-  echo "/home/sasaki/Imágenes/Wallpapers/$1" > $DIR/scripts/enviroment/path &
+  echo "/home/$(whoami)/Pictures/Wallpapers/$1" > $DIR/scripts/enviroment/path &
   echo "pkill -USR1 -x sxhkd;dunstify -i $HOME/.config/dunst/iconpng/$1.jpg SXHKDRC RECARGADO" > $DIR/scripts/enviroment/sxhkd.sh &
 }
 

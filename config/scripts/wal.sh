@@ -1,1 +1,1 @@
-feh --bg-fill --randomize ~/Imágenes/Fondos\ de\ escritorio/Graveyard
+feh --bg-fill --randomize /home/$(whoami)/Pictures/Wallpapers/Graveyard
