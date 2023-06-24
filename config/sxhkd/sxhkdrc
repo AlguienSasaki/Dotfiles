@@ -27,7 +27,7 @@ ctrl + shift + space
 
 # launch dmenu
 super + @space
-	rofi -show run
+	rofi -i -show-icons -no-config -no-lazy-grab -dpi 110 -show drun -modi drun -theme .config/rofi/config.rasi
 
 #choose the theme
 super + shift + a
@@ -35,11 +35,11 @@ super + shift + a
 
 # Launch Web Browser
 super + w
-	firefox	
+	google-chrome-stable --force-device-scale-factor=1.2	
 
 # Launch Web browser In Incognito Mode
 super + shift + w
-	firefox --private-window	
+	google-chrome-stable --force-device-scale-factor=1.2 --incognito
 
 # Screenshots
 Print
@@ -83,7 +83,7 @@ super + Tab
 
 # Modify volume 
 {XF86AudioLowerVolume,XF86AudioRaiseVolume}
-	{pactl set-sink-volume alsa_output.pci-0000_00_09.2.analog-stereo -5% ; pactl set-sink-volume alsa_output.pci-0000_00_01.1.hdmi-stereo -5% ; pactl set-sink-volume bluez_sink.41_42_2A_08_F5_94.a2dp_sink -5% & ~/config/scripts/volume.sh, pactl set-sink-volume alsa_output.pci-0000_00_09.2.analog-stereo +5% ; pactl set-sink-volume alsa_output.pci-0000_00_01.1.hdmi-stereo +5% ; pactl set-sink-volume bluez_sink.41_42_2A_08_F5_94.a2dp_sink +5% & ~/config/scripts/volume.sh }
+	{amixer sset Master 5%- & ~/config/scripts/volume.sh, amixer sset Master 5%+ & ~/config/scripts/volume.sh }
 
 
 # Mute & Unmute Volume
@@ -91,7 +91,7 @@ XF86AudioMute
 	{amixer sset Master mute && dunstify -i $HOME/.config/dunst/iconpng/n.png Audio Deshabilitado, amixer sset Master unmute && dunstify -i $HOME/.config/dunst/iconpng/si.png Audio Habilitado}
 
 # Mute Mic & Unmute mic
-bspc monitor HDMI-A-0 -d  a b c d e
+# bspc monitor HDMI-A-0 -d  a b c d e
 XF86AudioMicMute
 	~/.config/scripts/enviroment/micr.sh
 
@@ -108,8 +108,8 @@ super + XF86MonBrightnessUp
 	light -S 100
 
 # Lock PC
-super + l 
-	betterlockscreen -l
+#super + l 
+#	betterlockscreen -l
 
 # Lock PC
 super + shift + s
@@ -162,7 +162,7 @@ super + ctrl + {m,x,y,z}
 #____________________________________________________________________________________
 
 # focus the node in the given direction
-super + {_,shift + }{Left,Down,Up,Right}
+super + {_,shift + }{h,j,k,l}
 	bspc node -{f,s} {west,south,north,east}
 
 # focus the node for the given path jump
@@ -201,7 +201,7 @@ super + {_,shift + }{1-9,0}
 #
 
 # preselect the direction
-super + ctrl + {Left,Down,Up,Right}
+super + ctrl + {h,j,k,l}
 	bspc node -p {west,south,north,east}
 
 # preselect the ratio
@@ -226,11 +226,11 @@ super + ctrl + shift + space
 
 
 # expand a window by moving one of its side outward
-super + alt + {Left,Down,Up,Right}
+super + alt + {h,j,k,l}
 	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
 
 # contract a window by moving one of its side inward
-super + alt + shift + {Left,Down,Up,Right}
+super + alt + shift + {h,j,k,l}
 	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
 
 # move a floating window

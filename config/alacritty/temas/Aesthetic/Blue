@@ -1,65 +1,28 @@
 colors:
+  name: Ashes (light)
+  author: Chris Kempson
   primary:
-    foreground: '#96d2de'
-    background: '#010515'
-    dim_foreground: '#eff0f1'
-    bright_foreground: '#ffffff'
-    dim_background: '#31363b'
-    bright_background: '#000000'
-  normal:
-    black: '#010515'
-    red: '#531478'
-    green: '#124B6B'
-    yellow: '#671893'
-    blue: '#356299'
-    magenta: '#9C1DBC'
-    cyan: '#EC0DF2'
-    white: '#96d2de'
-  bright:
-    black: '#69939b'
-    red: '#531478'
-    green: '#124B6B'
-    yellow: '#671893'
-    blue: '#356299'
-    magenta: '#9C1DBC'
-    cyan: '#EC0DF2'
-    white: '#96d2de'
+    background: "#f3f4f5"
+    foreground: "#565e65"
   cursor:
-    text: '#010515'
-    cursor: '#96d2de'
-  dim:
-    black: '#31363b'
-    red: '#783228'
-    green: '#17a262'
-    yellow: '#b65619'
-    blue: '#1b668f'
-    magenta: '#614a73'
-    cyan: '#186c60'
-    white: '#63686d'
-# BEGIN ACE
-colors:
-  primary:
-    background: '#284549'
-    foreground: '#ffffff'
-  cursor:
-    text:       '#ffffff'
-    cursor:     '#d5e2e7'
+    text: "#f3f4f5"
+    cursor: "#565e65"
   normal:
-    black:      '#16181a'
-    red:        '#9399A5'
-    green:      '#97A8AE'
-    yellow:     '#ABB1B2'
-    blue:       '#C6C0B4'
-    magenta:    '#AEBAC5'
-    cyan:       '#B0C3C6'
-    white:      '#d5e2e7'
+    black: "#1c2023"
+    red: "#c7ae95"
+    green: "#95c7ae"
+    yellow: "#aec795"
+    blue: "#ae95c7"
+    magenta: "#c795ae"
+    cyan: "#95aec7"
+    white: "#c7ccd1"
   bright:
-    black:      '#959ea1'
-    red:        '#9399A5'
-    green:      '#ffffff'
-    yellow:     '#ABB1B2'
-    blue:       '#C6C0B4'
-    magenta:    '#ffffff'
-    cyan:       '#ffffff'
-    white:      '#d5e2e7'
-# END ACE
+    black: "#747c84"
+    red: "#c7ae95"
+    green: "#95c7ae"
+    yellow: "#aec795"
+    blue: "#ae95c7"
+    magenta: "#c795ae"
+    cyan: "#95aec7"
+    white: "#f3f4f5"
+theme: Ashes.light

@@ -11,7 +11,7 @@
     horizontal_padding = 10
     frame_width = 3
 # Bordes De Notificaciones 
-frame_color = "#ffffff"
+frame_color = "#a4afbf"
 	
     # Define a color for the separator.
     # possible values are:
@@ -76,7 +76,7 @@ frame_color = "#ffffff"
 [urgency_low]
 
 [urgency_normal]
-    background = "#284549"
-    foreground = "#fbfbfb"
+    background = "#fbfbfb"
+    foreground = "#5e5e63"
 
 [urgency_critical]

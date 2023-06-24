@@ -1,0 +1,61 @@
+env:
+  TERM: xterm-256color
+window:
+  padding:
+    x: 6
+    'y': 6
+  title: Alacritty
+  class:
+    instance: Alacritty
+    general: Alacritty
+scrolling:
+  history: 5000
+font:
+  normal:
+    family: Hack Nerd Font
+    style: Regular
+  bold:
+    family: Hack Nerd Font
+    style: Bold
+  italic:
+    family: Hack Nerd Font
+    style: italic
+  bold_italic:
+    family: Hack Nerd Font
+    style: Bold Italic
+  size: 9
+  offset:
+    x: 0
+    'y': 0
+draw_bold_text_with_bright_colors: true
+window.opacity: 0.85
+import:
+  - ~/.config/alacritty/colors.yml
+colors:
+  name: Twilight (light)
+  author: Chris Kempson
+  primary:
+    background: "#ffffff"
+    foreground: "#464b50"
+  cursor:
+    text: "#ffffff"
+    cursor: "#464b50"
+  normal:
+    black: "#1e1e1e"
+    red: "#cf6a4c"
+    green: "#8f9d6a"
+    yellow: "#f9ee98"
+    blue: "#7587a6"
+    magenta: "#9b859d"
+    cyan: "#afc4db"
+    white: "#a7a7a7"
+  bright:
+    black: "#5f5a60"
+    red: "#cf6a4c"
+    green: "#8f9d6a"
+    yellow: "#f9ee98"
+    blue: "#7587a6"
+    magenta: "#9b859d"
+    cyan: "#afc4db"
+    white: "#ffffff"
+theme: Twilight.light

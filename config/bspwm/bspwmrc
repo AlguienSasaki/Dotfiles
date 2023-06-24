@@ -13,9 +13,11 @@
 
 #userChrome.css_____________________inicio_____________________#
 
+~/export_x_info
 pgrep -x sxhkd > /dev/null || sxhkd &
-~/.config/polybar/launch.sh &
-setxkbmap latam basic &
+~/.config/polybar/launch.sh & 
+setxkbmap -layout us -variant intl &
+#setxkbmap us &
 unclutter &
 mpd &
 ~/.config/scripts/services/mpd-ntif.sh &
@@ -25,6 +27,7 @@ mpd &
 dunst &
 touchegg &
 greenclip daemon &
+xinput --set-prop "11" "libinput Accel Speed" 0.5 &
 
 #_____________________polkit______________________________________
 
@@ -34,15 +37,16 @@ fi
 
 #_____________________config de los monitores_____________________#
 
-if xrandr -q | grep 'HDMI-A-0 connected'; then
-xrandr --output HDMI-A-0 --mode 1024x768 --right-of eDP
+if xrandr -q | grep 'HDMI2 connected'; then
+xrandr --output HDMI2 --mode 1360x768 --right-of eDP1
 bspc monitor -d I IV V VII
-bspc monitor HDMI-A-0 -d I II III VI VIII
+bspc monitor HDMI2 -d I II III VI VIII
+bspc config pointer_follows_focus true
 else
-bspc monitor eDP -d I II III IV V VI VII VIII
+bspc monitor eDP1 -d I II III IV V VI VII VIII
 fi
 
-xrandr --output eDP --mode 1366x768 
+xrandr --output eDP1 --mode 1920x1080 
 #bspc monitor -d  一 二 三 四 五 六 七 八 九 零
 #bspc monitor -d I II III IV V VI VII VIII IX X
 #bspc monitor -d 0000 0001 0010 0011 0100 0101 0111 1000 1100
@@ -66,12 +70,14 @@ bspc config remove_unplugged_monitors true
 bspc config remove_disabled_monitors true
 bspc config pointer_modifier mod4
 bspc config focused_frame_opacity 0.05
-bspc config pointer_follows_focus true
 
 #____________________reglas del escritorio____________________#
 
 bspc rule -a Onboard state=floating follow=on
-
+bspc rule -a gnome-calculator state=floating follow=on
+bspc rule -a Gedit state=floating follow=on
+bspc rule -a File-roller:file-roller state=floating follow=on
+bspc rule -a Google-chrome:google-chrome state=fullscreen
 
 picom --experimental-backend &
 ~/.config/scripts/enviroment/wal.sh &

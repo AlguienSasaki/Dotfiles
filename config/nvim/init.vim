@@ -21,6 +21,7 @@ set showmatch
 set sw=2
 set relativenumber
 set encoding=UTF-8
+set mouse=
 
 "_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
@@ -43,7 +44,9 @@ call plug#end()
 let NERDTreeQuitOnOpen=1
 let g:airline_powerline_fonts = 1
 let mapleader=" "
-let g:user_emmet_leader_key='<C-j>'
+let g:user_emmet_leader_key='<C-y>'
+
+imap <C-y> <C-y>,
 
 "_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
@@ -56,7 +59,6 @@ function! NumberToggle()
 endfunc
 
 "_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-
 nmap <Leader>f <Plug>(easymotion-s2)
 nmap <Leader>r :NERDTreeFind<CR> 
 nmap <Leader>w :w<CR>
@@ -64,3 +66,8 @@ nmap <Leader>q :wq<CR>
 nmap <Leader>Q :q!<CR>
 nmap <Leader>n :call NumberToggle()<cr>
 
+"_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"

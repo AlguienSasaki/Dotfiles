@@ -25,8 +25,8 @@ frame_color = "#919191"
     sort = yes
 
     idle_threshold = 120
-    font = DejaVuSansMono NF 9
-    #font = San Francisco Display 9
+    font = DejaVuSansMono NF 11 
+    #font = San Francisco Display 11 
     line_height = 3
     markup = full
 

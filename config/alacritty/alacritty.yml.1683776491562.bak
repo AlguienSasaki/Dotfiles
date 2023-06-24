@@ -23,12 +23,11 @@ font:
   bold_italic:
     family: Hack Nerd Font
     style: Bold Italic
-  size: 11
+  size: 9
   offset:
     x: 0
     'y': 0
 draw_bold_text_with_bright_colors: true
 window.opacity: 0.85
 import:
-  - ~/.config/alacritty/colors.yml
-
+  -  ~/.config/alacritty/colors.yml
